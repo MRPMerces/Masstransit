@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Events>
+	<Event type="Disaster">
+		<Name>Pandemic</Name>
+		<Duration>1095</Duration>
+		<Modifiers>
+			<Modifier type="ConstructionCost">0.5</Modifier>
+			<Modifier type="Ridership">0.1</Modifier>
+		</Modifiers>
+	</Event>
+
+	<Event type="Trigger">
+		<Name>EraChange</Name>
+		<Duration>365</Duration>
+		<Modifiers>
+			<Modifier type="PopulationGrowth">2</Modifier>
+			<Modifier type="Ridership">1.5</Modifier>
+		</Modifiers>
+	</Event>
+</Events>

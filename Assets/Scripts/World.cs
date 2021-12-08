@@ -1,0 +1,200 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
+using UnityEngine;
+
+public class World : IXmlSerializable {
+    public World(int Width, int Height) {
+        setupWorld(Width, Height);
+    }
+
+    public static World world { get; protected set; }
+
+    // The pathfinding graph used to navigate our world map.
+    public Path_TileGraph tileGraph;
+    public AirportGraph airportGraph;
+
+    public NetworkController road;
+    public NetworkController highway;
+    public NetworkController lst;
+    public NetworkController hst;
+
+    public PlayerController playerController;
+
+    public Era tech;
+
+    // A two-dimensional array to hold our tiles.
+    public Tile[,] tiles { get; protected set; }
+
+    // All the tiles with cities in them.
+    public List<Tile> tilesWithCity { get; protected set; }
+
+    public int Width { get; protected set; }
+    public int Height { get; protected set; }
+
+    void setupWorld(int Width, int Height) {
+        this.Width = Width;
+        this.Height = Height;
+        world = this;
+
+        tiles = new Tile[Width, Height];
+
+        // Populate Tile array with (Width * Height) tiles
+        for (int x = 0; x < Width; x++) {
+            for (int y = 0; y < Height; y++) {
+                tiles[x, y] = new Tile(x, y);
+                tiles[x, y].RegisterTileTypeChangedCallback(OnTileChanged);
+                tiles[x, y].RegisterTileInfrastructureChanged(OnTileRoadInfrastructureChanged);
+            }
+        }
+
+        Debug.Log("World created with " + (Width * Height) + " tiles.");
+        tilesWithCity = new List<Tile>();
+
+        tech = new Era(5);
+
+        tileGraph = new Path_TileGraph();
+        airportGraph = new AirportGraph();
+
+        road = new NetworkController(NetworkType.Road, 5000, 1000);
+        highway = new NetworkController(NetworkType.Highway, 10000, 7500);
+        lst = new NetworkController(NetworkType.LST, 30000, 15000);
+        hst = new NetworkController(NetworkType.HST, 100000, 100000);
+
+        playerController = new PlayerController();
+    }
+
+    // Add a tile to the list of tiles with cities.
+    public void add_cityToList(Tile t) {
+        tilesWithCity.Add(t);
+    }
+
+    // Get Tile with cordinates x,y
+    public Tile getTileAt(int x, int y) {
+        if (x >= Width || x < 0 || y >= Height || y < 0) {
+            return null;
+        }
+
+        return tiles[x, y];
+    }
+
+    /// <summary>
+    /// Gets the tile at the unity-space coordinates
+    /// </summary>
+    /// <returns>The tile at world coordinate.</returns>
+    /// <param name="vector3">Unity World-Space coordinates.</param>
+    public Tile getTileAt(Vector3 vector3) {
+        return getTileAt(Mathf.FloorToInt(vector3.x + 0.5f), Mathf.FloorToInt(vector3.y + 0.5f));
+    }
+
+    // Create new stats for a new city
+    public CityStats newCityStats() {
+        return new CityStats("city" + tilesWithCity.Count.ToString(), 100 * UnityEngine.Random.Range(0, 250));
+    }
+
+    #region Callbacks
+
+    Action<Tile> cbTileChanged;
+    Action<Tile, NetworkType> cbTileInfrastructureChanged;
+
+    public void RegisterTileChanged(Action<Tile> callbackfunc) {
+        cbTileChanged += callbackfunc;
+    }
+
+    public void UnregisterTileChanged(Action<Tile> callbackfunc) {
+        cbTileChanged -= callbackfunc;
+    }
+
+    public void RegisterTileInfrastructureChanged(Action<Tile, NetworkType> callbackfunc) {
+        cbTileInfrastructureChanged += callbackfunc;
+    }
+
+    public void UngisterTileInfrastructureChanged(Action<Tile, NetworkType> callbackfunc) {
+        cbTileInfrastructureChanged -= callbackfunc;
+    }
+
+    // Gets called whenever ANY tile changes
+    void OnTileChanged(Tile t) {
+        if (cbTileChanged == null) {
+            return;
+        }
+
+        cbTileChanged(t);
+    }
+
+    void OnTileRoadInfrastructureChanged(Tile t, NetworkType type) {
+        if (cbTileInfrastructureChanged == null) {
+            return;
+        }
+
+        cbTileInfrastructureChanged(t, type);
+    }
+
+    #endregion Callbacks
+
+    #region Saving and loading
+
+    /// <summary>
+    /// Default constructor for saving and loading.
+    /// </summary>
+    private World() {
+    }
+
+    public XmlSchema GetSchema() {
+        return null;
+    }
+
+    public void WriteXml(XmlWriter writer) {
+        writer.WriteAttributeString("Width", Width.ToString());
+        writer.WriteAttributeString("Height", Height.ToString());
+
+        writer.WriteStartElement("Tiles");
+        for (int x = 0; x < Width; x++) {
+            for (int y = 0; y < Height; y++) {
+                writer.WriteStartElement("Tile");
+                tiles[x, y].WriteXml(writer);
+                writer.WriteEndElement();
+            }
+        }
+        writer.WriteEndElement();
+    }
+
+    public void ReadXml(XmlReader reader) {
+
+        Width = int.Parse(reader.GetAttribute("Width"));
+        Height = int.Parse(reader.GetAttribute("Height"));
+
+        setupWorld(Width, Height);
+
+        // We are in the "Tiles" element, so read elements until we run out of "Tile" nodes.
+        if (reader.ReadToDescendant("Tile")) {
+            // We have at least one tile, so do something with it.
+
+            do {
+                //Debug.Log("Name: " + reader.Name);
+                int x = int.Parse(reader.GetAttribute("X"));
+                int y = int.Parse(reader.GetAttribute("Y"));
+                tiles[x, y].ReadXml(reader);
+
+                Debug.Log(reader.NodeType + "Name: " + reader.Name + "value: " + reader.Value);
+
+            } while (reader.ReadToNextSibling("Tile"));
+        }
+    }
+
+    #endregion Saving and loading
+}
+
+// Struct to temp store name and population
+public struct CityStats {
+
+    public CityStats(string n, int p) {
+        name = n;
+        population = p;
+    }
+
+    public string name { get; }
+    public int population { get; }
+}
