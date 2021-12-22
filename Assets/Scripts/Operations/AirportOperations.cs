@@ -3,19 +3,8 @@ using UnityEngine;
 
 public class AirportOperations : MonoBehaviour {
 
-    float tick {
-        get { return SpeedController.speed.worldTick; }
-    }
-
-    private float time = 0.0f;
-
-    void Update() {
-        time += Time.deltaTime;
-
-        if (time >= tick && tick != 0) {
-            time -= tick;
-            airport_Operations();
-        }
+    private void Start() {
+        SpeedController.speedController.RegisterDayTickCallback(airport_Operations);
     }
 
     public void airport_Operations() {

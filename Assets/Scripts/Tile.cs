@@ -71,55 +71,30 @@ public class Tile : IXmlSerializable {
             case NetworkType.Road:
                 if (!road.Contains(owner)) {
                     road.Add(owner);
-                    cbTileInfrastructureChanged(this, type);
-
-                    foreach (Tile tile in getNeighbours()) {
-                        if (tile != null) {
-                            tile.cbTileInfrastructureChanged(tile, type);
-                        }
-                    }
+                    bleh(owner, type);
                 }
-
-                break;
+                return;
 
             case NetworkType.Highway:
                 if (!highway.Contains(owner)) {
                     highway.Add(owner);
-                    cbTileInfrastructureChanged(this, type);
-
-                    foreach (Tile tile in getNeighbours()) {
-                        if (tile != null) {
-                            tile.cbTileInfrastructureChanged(tile, type);
-                        }
-                    }
+                    bleh(owner, type);
                 }
-                break;
+                return;
 
             case NetworkType.LST:
                 if (!lst.Contains(owner)) {
                     lst.Add(owner);
-                    cbTileInfrastructureChanged(this, type);
-
-                    foreach (Tile tile in getNeighbours()) {
-                        if (tile != null) {
-                            tile.cbTileInfrastructureChanged(tile, type);
-                        }
-                    }
+                    bleh(owner, type);
                 }
-                break;
+                return;
 
             case NetworkType.HST:
                 if (!hst.Contains(owner)) {
                     hst.Add(owner);
-                    cbTileInfrastructureChanged(this, type);
-
-                    foreach (Tile tile in getNeighbours()) {
-                        if (tile != null) {
-                            tile.cbTileInfrastructureChanged(tile, type);
-                        }
-                    }
+                    bleh(owner, type);
                 }
-                break;
+                return;
 
             default:
                 Debug.LogError(type + " Unrecognised type");
@@ -127,6 +102,16 @@ public class Tile : IXmlSerializable {
         }
     }
 
+    /// Rename
+    void bleh(Player player, NetworkType networkType) {
+        cbTileInfrastructureChanged(this, networkType, player);
+
+        foreach (Tile tile in getNeighbours()) {
+            if (tile != null) {
+                tile.cbTileInfrastructureChanged(tile, networkType, player);
+            }
+        }
+    }
     public void update_infrastructureOwner(NetworkType networkType, Player oldOwner, Player newOwner) {
         switch (networkType) {
             case NetworkType.Road:
@@ -215,15 +200,45 @@ public class Tile : IXmlSerializable {
         return tiles;
     }
 
+    public Tile North {
+        get {
+            return World.world.getTileAt(X, Y + 1);
+        }
+    }
+
+    public Tile South {
+        get {
+            return World.world.getTileAt(X, Y - 1);
+        }
+    }
+
+    public Tile East {
+        get {
+            return World.world.getTileAt(X + 1, Y);
+        }
+    }
+
+    public Tile West {
+        get {
+            return World.world.getTileAt(X - 1, Y);
+        }
+    }
+
     /// Consider add 1 with a offset? eg + 0.5f?
     public Vector3 toVector3() {
         return new Vector3(X, Y, 0);
     }
 
+    public string name {
+        get {
+            return "Tile_" + X + "_" + Y;
+        }
+    }
+
     #region Callbacks
 
     Action<Tile> cbTileChanged;
-    Action<Tile, NetworkType> cbTileInfrastructureChanged;
+    Action<Tile, NetworkType, Player> cbTileInfrastructureChanged;
 
     /// <summary>
     /// Register a function to be called back when our tile type changes.
@@ -236,11 +251,11 @@ public class Tile : IXmlSerializable {
         cbTileChanged -= callback;
     }
 
-    public void RegisterTileInfrastructureChanged(Action<Tile, NetworkType> callbackfunc) {
+    public void RegisterTileInfrastructureChanged(Action<Tile, NetworkType, Player> callbackfunc) {
         cbTileInfrastructureChanged += callbackfunc;
     }
 
-    public void UngisterTileInfrastructureChanged(Action<Tile, NetworkType> callbackfunc) {
+    public void UngisterTileInfrastructureChanged(Action<Tile, NetworkType, Player> callbackfunc) {
         cbTileInfrastructureChanged -= callbackfunc;
     }
 
@@ -305,7 +320,7 @@ public class Tile : IXmlSerializable {
         Debug.Log(reader.NodeType + "Name: " + reader.Name + "value: " + reader.Value);
         type = (TileType)int.Parse(reader.GetAttribute("Type"));
 
-  
+
 
         //Debug.Log("Name: " +reader.Name);
         if (reader.ReadToDescendant("City")) {

@@ -839,4 +839,92 @@ public void create_interchange(Metrostation ms1, Metrostation ms2) {
         /// list.Remove(new Metrostation() { lineNumber = ms.lineNumber });
         /// foreach (Metrostation MS in list) if (MS.lineNumber == ms.lineNumber) get_metroline(ms.lineNumber).remove(MS);
     }
+
+    //void creategraph() {
+    //    if (cityTiles.Count > 1) {
+    //        graph.Clear();
+    //        foreach (Tile city1 in cityTiles) {
+    //            CityGraph newCityGraph = new CityGraph(city1);
+    //            graph.Add(newCityGraph);
+
+    //            foreach (Tile city2 in cityTiles) {
+    //                if (city2 != city1 && !newCityGraph.distances.ContainsKey(city2.city)) {
+    //                    newCityGraph.addDistance(city2.city, (int)Mathf.Sqrt(Mathf.Pow(city1.X - city2.X, 2) + Mathf.Pow(city1.Y - city2.Y, 2)));
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
+
+//public class CityGraph {
+//    public CityGraph(Tile cityTile) {
+//        this.cityTile = cityTile;
+//        distances = new Dictionary<City, int>();
+//        paths = new Dictionary<Tile, Tile[]>();
+//    }
+
+//    public Tile cityTile { get; protected set; }
+//    public Dictionary<City, int> distances { get; protected set; }
+//    public Dictionary<Tile, Tile[]> paths { get; protected set; }
+
+//    public void addDistance(City city, int distance) {
+//        if (distances.ContainsKey(city)) {
+//            Debug.LogError("tile allready added");
+//            return;
+//        }
+
+//        distances.Add(city, distance);
+//    }
+
+//    public void addPath(Tile tile, Tile[] tiles) {
+//        if (paths.ContainsKey(tile)) {
+//            Debug.LogError("tile allready added");
+//            return;
+//        }
+
+//        paths.Add(tile, tiles);
+//    }
+//}
+
+public class AirportBuildController : MonoBehaviour {
+
+    public static AirportBuildController airportBuildController { get; protected set; }
+    // Start is called before the first frame update
+    void Start() {
+        airportBuildController = this;
+    }
+
+    // Update is called once per frame
+    void Update() {
+
+    }
+
+    public void buildAirport(City city, Player player) {
+        if (city.hasPlayerAAirport(player)) {
+            Debug.LogError("Player: " + player + " allready have a airport in this city");
+            return;
+        }
+
+        city.buildAirport(player);
+    }
+
+    public void buildTerminal(City city, Player player) {
+        if (!city.hasPlayerAAirport(player)) {
+            Debug.LogError("Player: " + player + " does not have a airport in this city");
+            return;
+        }
+
+        city.get_airportByPlayer(player).add_terminal();
+    }
+
+    public void buildRunway(City city, Player player) {
+        if (!city.hasPlayerAAirport(player)) {
+            Debug.LogError("Player: " + player + " does not have a airport in this city");
+            return;
+        }
+
+        city.get_airportByPlayer(player).add_runway();
+    }
+}
+
 */

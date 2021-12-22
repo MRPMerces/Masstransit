@@ -40,7 +40,7 @@ public class UI_MetroMenu : MonoBehaviour {
             station.SetActive(true);
 
             // Disable the button if player cant afford.
-            if (!player.canAfford(100000)) {
+            if (!player.canAffordConstructionCost(100000)) {
                 metro.GetComponent<Button>().interactable = false;
                 //terminal.color = red;
             }

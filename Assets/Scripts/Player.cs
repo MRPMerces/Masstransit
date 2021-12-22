@@ -7,7 +7,7 @@ using UnityEngine;
 
 public enum PlayerType { Human, Ai };
 
-public class Player : IXmlSerializable  {
+public class Player : IXmlSerializable {
     public Player(PlayerType type, string name, int id, Modifier[] characterModifiers = null) {
         this.characterModifiers = characterModifiers;
         this.type = type;
@@ -16,7 +16,7 @@ public class Player : IXmlSerializable  {
         //policies = new PolicyController;
         modifiers = new ModifierController();
         companyOwnership = 1f;
-        money = 100000000;
+        actualMoney = 100000000;
 
         loan1 = null;
         loan2 = null;
@@ -41,8 +41,20 @@ public class Player : IXmlSerializable  {
     public Loan loan2 { get; set; }
     public Loan loan3 { get; set; }
 
-    public int money { get; protected set; }
-    public int totalExpenditure { get; protected set; }
+    private float actualMoney;
+
+    /// <summary>
+    /// Returns the player::money as a integer.
+    /// </summary>
+    public int money {
+        get {
+            return (int)actualMoney;
+        }
+        protected set {
+        }
+    }
+
+    public float totalExpenditure { get; protected set; }
 
     float companyOwnership;
     public float publicOwnership { get; protected set; }
@@ -51,14 +63,34 @@ public class Player : IXmlSerializable  {
     /// Subtract construction cost from balance.
     /// Use this if the constructionCost modifier should be applied.
     /// </summary>
-    public void constructionCost(int cost) {
-        int expendeture = (int)(cost * modifiers.constructionCost.value);
-        if (money - expendeture < 0) {
-            Debug.LogError("-Player.constructionCost- Insufficient funds!");
+    public void constructionCost(int amount) {
+        float expendeture = (amount * modifiers.constructionCost.value);
+        if (actualMoney - expendeture < 0) {
+            Debug.LogError("Insufficient funds!");
             return;
         }
 
-        money -= expendeture;
+        actualMoney -= expendeture;
+        totalExpenditure += expendeture;
+
+        // Call the callback and let things know we've updated.
+        if (cbMoneyUpdated != null && type == PlayerType.Human) {
+            cbMoneyUpdated();
+        }
+
+        if (type == PlayerType.Human) {
+            Debug.Log("- " + expendeture + " Money");
+        }
+    }
+
+    public void constructionCost(float amount) {
+        float expendeture = (amount * modifiers.constructionCost.value);
+        if (actualMoney - expendeture < 0) {
+            Debug.LogError("Insufficient funds!");
+            return;
+        }
+
+        actualMoney -= expendeture;
         totalExpenditure += expendeture;
 
         // Call the callback and let things know we've updated.
@@ -74,20 +106,45 @@ public class Player : IXmlSerializable  {
     /// <summary>
     /// Add opereating income to balance.
     /// </summary>
-    public void opereatingIncome(int money) {
-        if (money > 0) {
-            this.money += (int)(money * modifiers.operatingIncome.value * companyOwnership);
+    public void opereatingIncome(int amount) {
+        if (amount > 0) {
+            actualMoney += amount * modifiers.operatingIncome.value * companyOwnership;
 
             if (type == PlayerType.Human) {
-                Debug.Log("+ " + (int)(money * modifiers.operatingIncome.value * companyOwnership) + " Money");
+                Debug.Log("+ " + (amount * modifiers.operatingIncome.value * companyOwnership) + " Money");
             }
         }
 
-        if (money < 0) {
+        if (amount < 0) {
             if (type == PlayerType.Human) {
-                Debug.Log("- " + money + " Money");
+                Debug.Log("- " + amount + " Money");
             }
-            this.money += money;
+            actualMoney += amount;
+        }
+
+        // Call the callback and let things know we've updated.
+        if (cbMoneyUpdated != null && type == PlayerType.Human) {
+            cbMoneyUpdated();
+        }
+    }
+
+    /// <summary>
+    /// Add opereating income to balance.
+    /// </summary>
+    public void opereatingIncome(float amount) {
+        if (amount > 0) {
+            actualMoney += amount * modifiers.operatingIncome.value * companyOwnership;
+
+            if (type == PlayerType.Human) {
+                Debug.Log("+ " + (amount * modifiers.operatingIncome.value * companyOwnership) + " Money");
+            }
+        }
+
+        if (amount < 0) {
+            if (type == PlayerType.Human) {
+                Debug.Log("- " + amount + " Money");
+            }
+            actualMoney += amount;
         }
 
         // Call the callback and let things know we've updated.
@@ -99,10 +156,19 @@ public class Player : IXmlSerializable  {
     /// <summary>
     /// Method to check whenever a player can afford the construction cost.
     /// </summary>
-    /// <param name="cost">The constructioncost to test</param>
+    /// <param name="amount">The constructioncost to test</param>
     /// <returns>ool can/ can't afford</returns>
-    public bool canAfford(int cost) {
-        return (int)(cost * modifiers.constructionCost.value) < money;
+    public bool canAffordConstructionCost(int amount) {
+        return amount * modifiers.constructionCost.value < actualMoney;
+    }
+
+    /// <summary>
+    /// Method to check whenever a player can afford the construction cost.
+    /// </summary>
+    /// <param name="amount">The constructioncost to test</param>
+    /// <returns>ool can/ can't afford</returns>
+    public bool canAffordConstructionCost(float amount) {
+        return amount * modifiers.constructionCost.value < actualMoney;
     }
 
     //public PolicyController policies { get; protected set; }
@@ -121,7 +187,7 @@ public class Player : IXmlSerializable  {
 
     public void update_companyOwnership(float f) {
         if (f > publicOwnership) {
-            Debug.LogError("-Player.update_companyOwnership- buying more stock than the public has");
+            Debug.LogError("Buying more stock than the public has");
             return;
         }
         /// error
@@ -160,14 +226,14 @@ public class Player : IXmlSerializable  {
     public void WriteXml(XmlWriter writer) {
         writer.WriteAttributeString("Type", ((int)type).ToString());
         writer.WriteAttributeString("Name", name);
-        writer.WriteAttributeString("Money", money.ToString());
+        writer.WriteAttributeString("Money", actualMoney.ToString());
         writer.WriteAttributeString("TotalExpenditure", totalExpenditure.ToString());
     }
 
     public void ReadXml(XmlReader reader) {
         type = (PlayerType)int.Parse(reader.GetAttribute("Type"));
         name = reader.GetAttribute("Name");
-        money = int.Parse(reader.GetAttribute("Money"));
+        actualMoney = float.Parse(reader.GetAttribute("Money"));
         totalExpenditure = int.Parse(reader.GetAttribute("TotalExpenditure"));
     }
 

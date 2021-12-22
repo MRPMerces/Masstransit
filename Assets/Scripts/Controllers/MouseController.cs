@@ -95,8 +95,9 @@ public class MouseController : MonoBehaviour {
 
     public void dragInfrastructure() {
 
-        // Activate the tile borders.
-        TileSpriteController.tileSpriteController.enableBorder(true);
+        // Activate the tile borders. /// Optimize
+        KeyInputController.keyInputController.disableOverlays();
+        TileSpriteController.tileSpriteController.enableBorder();
 
         // If we're over a UI element, then bail out from this.
         if (EventSystem.current.IsPointerOverGameObject()) {
@@ -115,6 +116,7 @@ public class MouseController : MonoBehaviour {
         if (Input.GetMouseButton(1)) {
             dragStartPosition = currFramePosition;
             canceled = true;
+            KeyInputController.keyInputController.disableOverlays();
             return;
         }
 
@@ -170,7 +172,7 @@ public class MouseController : MonoBehaviour {
             // End Drag
             if (Input.GetMouseButtonUp(0) && dragTiles.Count > 0) {
                 buildModeController.doBuild(dragTiles.ToArray());
-                TileSpriteController.tileSpriteController.enableBorder(false);
+                KeyInputController.keyInputController.disableOverlays();
             }
         }
     }

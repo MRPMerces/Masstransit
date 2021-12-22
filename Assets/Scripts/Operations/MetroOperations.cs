@@ -2,19 +2,8 @@
 
 public class MetroOperations : MonoBehaviour {
 
-    float tick {
-        get { return SpeedController.speed.worldTick; }
-    }
-
-    private float time = 0.0f;
-
-    void Update() {
-        time += Time.deltaTime;
-
-        if (time >= tick && tick != 0) {
-            time -= tick;
-            metro_Operations();
-        }
+    private void Start() {
+        SpeedController.speedController.RegisterDayTickCallback(metro_Operations);
     }
 
     public void metro_Operations() {

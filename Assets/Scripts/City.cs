@@ -28,104 +28,58 @@ public class City : IXmlSerializable {
     public int population { get; protected set; }
     public int numberOfTrainStations { get; protected set; }
 
-    public bool hasAirport { get; protected set; }
+    public bool hasAirport;
     public bool hasMetro;
     public bool hasHighspeedTrainstation { get; protected set; }
     public bool hasLowspeedTrainstation { get; protected set; }
     public bool hasRoadConnection { get; protected set; }
     public bool hasHighwayConnection { get; protected set; }
 
-    public bool hasPlayerAAirport(Player player) {
-        if (player == null) {
-            Debug.LogError("-City.hasPlayerAAirport- Player is null");
-            return false;
-        }
-
-        foreach (Airport airport in airports) {
-            if (airport.owner == player) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public Airport get_airportByPlayer(Player player) {
-        if (!hasAirport) {
-            Debug.LogError("-City.get_airportByPlayer- City does not have a airport");
-            return null;
-        }
-
-        foreach (Airport airport in airports) {
-            if (airport.owner == player) {
-                return airport;
-            }
-        }
-
-        Debug.LogError("-City.get_airportByPlayer- Cant find a airport with owner player");
-        return null;
-    }
-
-    public void buildAirport(Player owner) {
-        if (hasPlayerAAirport(owner)) {
-            Debug.LogError("Player allready have a airport!");
-            return;
-        }
-
-        airports.Add(new Airport(owner));
-        airports[airports.Count - 1].add_runway();
-        airports[airports.Count - 1].add_terminal();
-        hasAirport = true;
-    }
-
-    /// <summary>
-    /// Function to merge two airports
-    /// </summary>
-    /// <param name="player1">Owner of the final airport</param>
-    /// <param name="player2">Airport to be merged with player 1</param>
-    public void mergeAirports(Player player1, Player player2) {
-
-        // If player 1 does not have an airport in this city. Just update the ownership of player 2's airport.
-        if (!hasPlayerAAirport(player1)) {
-            get_airportByPlayer(player2).update_owner(player1);
-        }
-
-        // Else we need to merge them.
-        else {
-            get_airportByPlayer(player1).mergeAirport(get_airportByPlayer(player2));
-            airports.Remove(get_airportByPlayer(player2));
-        }
-    }
-
-    public void addNetworkConnection(NetworkType type) {
+    public void addNetworkConnection(NetworkType type, bool remove = false) {
         switch (type) {
             case NetworkType.Road:
-                if (!hasRoadConnection) {
+                if (remove) {
+                    hasRoadConnection = false;
+                }
+
+                else {
                     hasRoadConnection = true;
                 }
 
-                break;
+                return;
 
             case NetworkType.Highway:
-                if (!hasHighwayConnection) {
+                if (remove) {
+                    hasHighwayConnection = false;
+                }
+
+                else {
                     hasHighwayConnection = true;
                 }
 
-                break;
+                return;
 
             case NetworkType.LST:
-                if (!hasLowspeedTrainstation) {
+                if (remove) {
+                    hasLowspeedTrainstation = false;
+                }
+
+                else {
                     hasLowspeedTrainstation = true;
                 }
 
-                break;
+                return;
 
             case NetworkType.HST:
-                if (!hasHighspeedTrainstation) {
+                if (remove) {
+                    hasHighspeedTrainstation = false;
+                }
+
+                else {
                     hasHighspeedTrainstation = true;
                 }
 
-                break;
+                return;
 
             default:
                 Debug.LogError(type + " Unrecognised type");
@@ -133,8 +87,8 @@ public class City : IXmlSerializable {
         }
     }
 
-    public void update_population(int pop) {
-        population += pop;
+    public void addPopulation(int population) {
+        this.population += population;
     }
 
     #region Saving and loading
@@ -178,6 +132,7 @@ public class City : IXmlSerializable {
     }
 
     public void ReadXml(XmlReader reader) {
+        /// I dosent read the city.
         name = reader.GetAttribute("Name");
         population = int.Parse(reader.GetAttribute("Population"));
 

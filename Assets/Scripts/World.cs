@@ -46,7 +46,7 @@ public class World : IXmlSerializable {
             for (int y = 0; y < Height; y++) {
                 tiles[x, y] = new Tile(x, y);
                 tiles[x, y].RegisterTileTypeChangedCallback(OnTileChanged);
-                tiles[x, y].RegisterTileInfrastructureChanged(OnTileRoadInfrastructureChanged);
+                tiles[x, y].RegisterTileInfrastructureChanged(OnTileInfrastructureChanged);
             }
         }
 
@@ -89,15 +89,24 @@ public class World : IXmlSerializable {
         return getTileAt(Mathf.FloorToInt(vector3.x + 0.5f), Mathf.FloorToInt(vector3.y + 0.5f));
     }
 
+    /// <summary>
+    /// Gets the tile at the unity-space coordinates
+    /// </summary>
+    /// <returns>The tile at world coordinate.</returns>
+    /// <param name="vector3">Unity World-Space coordinates.</param>
+    public Tile getTileAt(Vector2 vector2) {
+        return getTileAt(Mathf.FloorToInt(vector2.x + 0.5f), Mathf.FloorToInt(vector2.y + 0.5f));
+    }
+
     // Create new stats for a new city
     public CityStats newCityStats() {
-        return new CityStats("city" + tilesWithCity.Count.ToString(), 100 * UnityEngine.Random.Range(0, 250));
+        return new CityStats("city" + tilesWithCity.Count.ToString(), 100 * UnityEngine.Random.Range(1, 250));
     }
 
     #region Callbacks
 
     Action<Tile> cbTileChanged;
-    Action<Tile, NetworkType> cbTileInfrastructureChanged;
+    Action<Tile, NetworkType, Player> cbTileInfrastructureChanged;
 
     public void RegisterTileChanged(Action<Tile> callbackfunc) {
         cbTileChanged += callbackfunc;
@@ -107,11 +116,11 @@ public class World : IXmlSerializable {
         cbTileChanged -= callbackfunc;
     }
 
-    public void RegisterTileInfrastructureChanged(Action<Tile, NetworkType> callbackfunc) {
+    public void RegisterTileInfrastructureChanged(Action<Tile, NetworkType, Player> callbackfunc) {
         cbTileInfrastructureChanged += callbackfunc;
     }
 
-    public void UngisterTileInfrastructureChanged(Action<Tile, NetworkType> callbackfunc) {
+    public void UngisterTileInfrastructureChanged(Action<Tile, NetworkType, Player> callbackfunc) {
         cbTileInfrastructureChanged -= callbackfunc;
     }
 
@@ -124,12 +133,8 @@ public class World : IXmlSerializable {
         cbTileChanged(t);
     }
 
-    void OnTileRoadInfrastructureChanged(Tile t, NetworkType type) {
-        if (cbTileInfrastructureChanged == null) {
-            return;
-        }
-
-        cbTileInfrastructureChanged(t, type);
+    void OnTileInfrastructureChanged(Tile t, NetworkType type, Player player) {
+        cbTileInfrastructureChanged?.Invoke(t, type, player);
     }
 
     #endregion Callbacks

@@ -1,43 +1,52 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public enum NetworkType { Road, Highway, LST, HST };
+public enum NetworkType { Road, Highway, LST, HST }
 public class Network {
-    public Network(int id, Player owner) {
-        this.id = id;
+    public Network(NetworkType networkType, Player owner) {
         this.owner = owner;
 
         tiles = new List<Tile>();
         cityTiles = new List<Tile>();
-        graph = new List<CityGraph>();
+        networkGraph = new NetworkGraph(this);
+        vehicles = new Dictionary<CityPair, Vehicle>();
+
+        switch (networkType) {
+            case NetworkType.Road:
+                vehicleType = VehicleType.LSC;
+                break;
+
+            case NetworkType.Highway:
+                vehicleType = VehicleType.HSC;
+                break;
+
+            case NetworkType.LST:
+                vehicleType = VehicleType.LST;
+                break;
+
+            case NetworkType.HST:
+                vehicleType = VehicleType.HST;
+                break;
+
+            default:
+                break;
+        }
     }
 
     public List<Tile> tiles { get; protected set; }
 
-    readonly List<Tile> cityTiles;
+    public List<Tile> cityTiles { get; protected set; }
 
     public readonly Player owner;
-    public readonly int id;
-    public readonly List<CityGraph> graph;
+    //public readonly List<CityGraph> graph;
 
-    void creategraph() {
-        if (cityTiles.Count > 1) {
-            graph.Clear();
-            Debug.Log(cityTiles.Count);
-            foreach (Tile city1 in cityTiles) {
-                CityGraph newCityGraph = new CityGraph(city1);
-                graph.Add(newCityGraph);
+    public NetworkGraph networkGraph;
 
-                foreach (Tile city2 in cityTiles) {
-                    if (city2 != city1 && !newCityGraph.distances.ContainsKey(city2.city)) {
-                        newCityGraph.addDistance(city2.city, (int)Mathf.Sqrt(Mathf.Pow(city1.X - city2.X, 2) + Mathf.Pow(city1.Y - city2.Y, 2)));
-                    }
-                }
-            }
-        }
-    }
+    public Dictionary<CityPair, Vehicle> vehicles;
 
-    public void addTiles(Tile[] tilesToAdd) {
+    VehicleType vehicleType;
+
+    public void addTiles(Tile[] tilesToAdd, bool generateGraph = true) {
         foreach (Tile tile in tilesToAdd) {
             if (!containsTile(tile)) {
                 tiles.Add(tile);
@@ -47,7 +56,47 @@ public class Network {
                 }
             }
         }
-        creategraph();
+
+        if (generateGraph) {
+            networkGraph.reGenerateNetwork();
+        }
+
+        reGenerateVehicles();
+    }
+
+    void reGenerateVehicles() {
+        foreach (CityPair cityPair in networkGraph.cityPairs) {
+            if (!vehicles.ContainsKey(cityPair)) {
+                vehicles.Add(cityPair, new Vehicle(vehicleType, cityPair.start, cityPair.end));
+
+                Vector2 direction = Vector2.zero;
+                Tile currentTile = cityPair.start;
+                Tile nextTile = cityPair.path[1];
+
+                if (currentTile.X != nextTile.X) {
+                    if (currentTile.X > nextTile.X) {
+                        direction.x = -1;
+                    }
+
+                    else {
+                        direction.x = 1;
+                    }
+                }
+
+                if (currentTile.Y != nextTile.Y) {
+                    if (currentTile.Y > nextTile.Y) {
+                        direction.y = -1;
+                    }
+
+                    else {
+                        direction.y = 1;
+                    }
+                }
+
+                vehicles[cityPair].nextTile = nextTile;
+                vehicles[cityPair].direction = direction;
+            }
+        }
     }
 
     public bool containsTile(Tile tile) {
@@ -59,36 +108,18 @@ public class Network {
 
         return tiles.Contains(tile);
     }
-};
 
-
-
-public class CityGraph {
-    public CityGraph(Tile cityTile) {
-        this.cityTile = cityTile;
-        distances = new Dictionary<City, int>();
-        paths = new Dictionary<Tile, Tile[]>();
-    }
-
-    public Tile cityTile { get; protected set; }
-    public Dictionary<City, int> distances { get; protected set; }
-    public Dictionary<Tile, Tile[]> paths { get; protected set; }
-
-    public void addDistance(City city, int distance) {
-        if (distances.ContainsKey(city)) {
-            Debug.LogError("tile allready added");
-            return;
+    public bool containsCityTile(Tile tile) {
+        // Check that tile exist.
+        if (tile == null) {
+            Debug.LogError("tile = null");
+            return false;
         }
 
-        distances.Add(city, distance);
-    }
-
-    public void addPath(Tile tile, Tile[] tiles) {
-        if (paths.ContainsKey(tile)) {
-            Debug.LogError("tile allready added");
-            return;
+        if (tile.city == null) {
+            return false;
         }
 
-        paths.Add(tile, tiles);
+        return cityTiles.Contains(tile);
     }
 }

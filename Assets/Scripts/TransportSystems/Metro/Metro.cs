@@ -41,7 +41,7 @@ public class Metro : IXmlSerializable {
 
     public void add_metrostationToLine(int lineNumber) {
 
-        if (!owner.canAfford(30000)) {
+        if (!owner.canAffordConstructionCost(30000)) {
             Debug.LogError("Insufficient funds!");
             return;
         }

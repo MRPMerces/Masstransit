@@ -12,10 +12,6 @@ public class UI_AirportMenu : MonoBehaviour {
 
     City city;
 
-    private AirportBuildController airportController {
-        get { return AirportBuildController.airportBuildController; }
-    }
-
     private Player player {
         get { return World.world.playerController.human; }
     }
@@ -35,7 +31,7 @@ public class UI_AirportMenu : MonoBehaviour {
             runway.SetActive(true);
 
             // Disable the button if player cant afford.
-            if (!player.canAfford(0)) {
+            if (!player.canAffordConstructionCost(0)) {
                 terminal.GetComponent<Button>().interactable = false;
                 //terminal.color = red;
             }
@@ -52,19 +48,19 @@ public class UI_AirportMenu : MonoBehaviour {
     }
 
     public void buildAirport() {
-        airportController.buildAirport(city, player);
+        AirportController.airportController.buildAirport(city, player);
 
         disableAll();
     }
 
     public void buildTerminal() {
-        airportController.buildTerminal(city, player);
+        AirportController.airportController.buildTerminal(city, player);
 
         disableAll();
     }
 
     public void buildRunway() {
-        airportController.buildRunway(city, player);
+        AirportController.airportController.buildRunway(city, player);
 
         disableAll();
     }

@@ -47,6 +47,9 @@ TagManager:
   - name: Infrastructure
     uniqueID: 3024447159
     locked: 0
+  - name: Vehicles
+    uniqueID: 2685307715
+    locked: 0
   - name: UI
     uniqueID: 1685134151
     locked: 0

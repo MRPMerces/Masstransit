@@ -3,7 +3,7 @@ using System.Xml.Schema;
 using System.Xml.Serialization;
 using UnityEngine;
 
-public class Airport : IXmlSerializable  {
+public class Airport : IXmlSerializable {
 
     public Airport(Player owner) {
         World.world.airportGraph.regenerateGraph();
@@ -18,42 +18,91 @@ public class Airport : IXmlSerializable  {
 
     public bool metroStation { get; protected set; }
     public bool trainStation { get; protected set; }
+
+    public bool highSpeedtrainStation { get; protected set; }
     public bool highwayConnection { get; protected set; }
 
     public void update_owner(Player newOwner) {
         owner = newOwner;
     }
 
-    public void add_metroStation() { }
+    public void add_metroStation() {
+        if (metroStation) {
+            Debug.LogError("Airport allready have a train station");
+            return;
+        }
 
-    public void add_trainStation() { }
+        metroStation = true;
+    }
 
-    public void add_highwayConnection() {
-        if (!owner.canAfford(0)) {
+    public void add_trainStation() {
+        // If city has a train connection, then we can add it here as well for a price.
+        if (!owner.canAffordConstructionCost(0)) {
             Debug.LogError("Insufficient funds");
             return;
         }
+
+        if (trainStation) {
+            Debug.LogError("Airport allready have a train station");
+            return;
+        }
+
+        owner.constructionCost(0);
+
+        trainStation = true;
+    }
+
+    public void add_highSpeedTrainStation() {
+        if (!owner.canAffordConstructionCost(0)) {
+            Debug.LogError("Insufficient funds");
+            return;
+        }
+
+        if (highSpeedtrainStation) {
+            Debug.LogError("Airport allready have a highspeed trainstation");
+            return;
+        }
+
+        owner.constructionCost(0);
+
+        highSpeedtrainStation = true;
+    }
+
+    public void add_highwayConnection() {
+        // If city has a highway connection, then we can add it here as well for a price.
+        if (!owner.canAffordConstructionCost(0)) {
+            Debug.LogError("Insufficient funds");
+            return;
+        }
+
         if (highwayConnection) {
             Debug.LogError("Airport allready have a highwayconnection");
             return;
         }
+
+        owner.constructionCost(0);
+
         highwayConnection = true;
     }
 
     public void add_runway() {
-        if (!owner.canAfford(0)) {
+        if (!owner.canAffordConstructionCost(0)) {
             Debug.LogError("Insufficient funds");
             return;
         }
+
+        owner.constructionCost(0);
 
         runways++;
     }
 
     public void add_terminal() {
-        if (!owner.canAfford(0)) {
+        if (!owner.canAffordConstructionCost(0)) {
             Debug.LogError("Insufficient funds");
             return;
         }
+
+        owner.constructionCost(0);
 
         terminals++;
     }
@@ -62,15 +111,15 @@ public class Airport : IXmlSerializable  {
         runways += airport.runways;
         terminals += airport.terminals;
 
-        if(!metroStation && airport.metroStation) {
+        if (airport.metroStation) {
             metroStation = true;
         }
 
-        if (!trainStation && airport.trainStation) {
+        if (airport.trainStation) {
             trainStation = true;
         }
 
-        if (!highwayConnection && airport.highwayConnection) {
+        if (airport.highwayConnection) {
             highwayConnection = true;
         }
     }
@@ -88,7 +137,7 @@ public class Airport : IXmlSerializable  {
     }
 
     public void WriteXml(XmlWriter writer) {
-        
+
     }
 
     public void ReadXml(XmlReader reader) {

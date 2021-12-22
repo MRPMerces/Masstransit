@@ -7,6 +7,6 @@ public class UI_GameStats : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        gameDate.text = SpeedController.speed.currentDate();
+        gameDate.text = SpeedController.speedController.currentDate();
     }
 }

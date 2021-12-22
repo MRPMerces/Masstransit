@@ -57,7 +57,7 @@ public class EventController : MonoBehaviour {
         /// hstrain = 0
         /// lstrain = 0.1
         /// road = 0.3
-        disaster_events.Add(new Event(modifiers, "event_pandemic", "event_disaster", SpeedController.speed.currentDay, (int)(1825 / World.world.tech.era)));
+        disaster_events.Add(new Event(modifiers, "event_pandemic", "event_disaster", SpeedController.speedController.currentDay, (int)(1825 / World.world.tech.era)));
 
         // Era change
         modifiers = new Modifier[2];
@@ -66,7 +66,7 @@ public class EventController : MonoBehaviour {
         /// hstrain = 0
         /// lstrain = 0.1
         /// road = 0.3
-        disaster_events.Add(new Event(modifiers, "event_eraChange", "event_trigger", SpeedController.speed.currentDay, 365));
+        disaster_events.Add(new Event(modifiers, "event_eraChange", "event_trigger", SpeedController.speedController.currentDay, 365));
     }
 
 
