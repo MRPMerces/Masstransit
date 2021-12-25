@@ -13,7 +13,7 @@ public class AirportController : MonoBehaviour {
         airportController = this;
         cityPairs = new Dictionary<CityPair, Vehicle>();
 
-        findCityPairs();
+        //findCityPairs();
     }
 
     public bool hasPlayerAAirport(City city, Player player) {

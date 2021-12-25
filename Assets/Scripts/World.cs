@@ -133,8 +133,8 @@ public class World : IXmlSerializable {
         cbTileChanged(t);
     }
 
-    void OnTileInfrastructureChanged(Tile t, NetworkType type, Player player) {
-        cbTileInfrastructureChanged?.Invoke(t, type, player);
+    void OnTileInfrastructureChanged(Tile tile, NetworkType type, Player player) {
+        cbTileInfrastructureChanged?.Invoke(tile, type, player);
     }
 
     #endregion Callbacks
@@ -181,7 +181,10 @@ public class World : IXmlSerializable {
                 //Debug.Log("Name: " + reader.Name);
                 int x = int.Parse(reader.GetAttribute("X"));
                 int y = int.Parse(reader.GetAttribute("Y"));
-                tiles[x, y].ReadXml(reader);
+
+                XmlSerializer serializer = new XmlSerializer(typeof(Tile));
+
+                tiles[x, y] = (Tile)serializer.Deserialize(reader);
 
                 Debug.Log(reader.NodeType + "Name: " + reader.Name + "value: " + reader.Value);
 

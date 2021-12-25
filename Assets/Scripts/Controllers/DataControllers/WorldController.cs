@@ -1,4 +1,6 @@
 ﻿using System.IO;
+using System.Xml;
+using System.Xml.Schema;
 using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -21,15 +23,15 @@ public class WorldController : MonoBehaviour {
         }
 
         Debug.Log(world.tilesWithCity.Count + " Cities");
+
+        // Center the camera.
+        Camera.main.transform.position = new Vector3(world.Width / 2, world.Height / 2, Camera.main.transform.position.z);
     }
 
     void createEmptyWorld() {
         world = new World(25, 25);
 
         randomizeCityTiles();
-
-        // Center the camera.
-        Camera.main.transform.position = new Vector3(world.Width / 2, world.Height / 2, Camera.main.transform.position.z);
     }
 
     /// <summary>
@@ -42,7 +44,7 @@ public class WorldController : MonoBehaviour {
             }
         }
     }
-
+    
     #region Saving and loading
 
     public void newWorld() {
@@ -52,14 +54,10 @@ public class WorldController : MonoBehaviour {
 
     public void saveWorld() {
         XmlSerializer serializer = new XmlSerializer(typeof(World));
-        TextWriter writer = new StringWriter();
+        FileStream stream = new FileStream(Application.dataPath + "/Resources/Data/SaveGame00.xml", FileMode.Create);
 
-        serializer.Serialize(writer, world);
-        writer.Close();
-
-        Debug.Log(writer.ToString());
-
-        PlayerPrefs.SetString("SaveGame00", writer.ToString());
+        serializer.Serialize(stream, world);
+        stream.Close();
     }
 
     public void loadWorld() {
@@ -72,16 +70,15 @@ public class WorldController : MonoBehaviour {
 
     void createWorldFromSaveFile() {
 
+        FileStream stream = new FileStream(Application.dataPath + "/Resources/Data/SaveGame00.xml", FileMode.Open);
+
         XmlSerializer serializer = new XmlSerializer(typeof(World));
-        TextReader reader = new StringReader(PlayerPrefs.GetString("SaveGame00"));
 
-        world = (World)serializer.Deserialize(reader);
-        reader.Close();
-
-
-        // Center the camera.
-        Camera.main.transform.position = new Vector3(world.Width / 2, world.Height / 2, Camera.main.transform.position.z);
+        world = (World)serializer.Deserialize(stream);
+        stream.Close();
     }
 
     #endregion Saving and loading
 }
+
+/// Look at quills furntiure.xml reading and replace this one with that one i tinkerino.

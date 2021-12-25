@@ -132,7 +132,6 @@ public class City : IXmlSerializable {
     }
 
     public void ReadXml(XmlReader reader) {
-        /// I dosent read the city.
         name = reader.GetAttribute("Name");
         population = int.Parse(reader.GetAttribute("Population"));
 
@@ -148,6 +147,11 @@ public class City : IXmlSerializable {
                 metros[metros.Count - 1].ReadXml(reader);
 
             } while (reader.ReadToNextSibling("Metro"));
+        }
+
+        if (!reader.IsEmptyElement) {
+            Debug.Log("hei");
+            reader.ReadEndElement();
         }
     }
 

@@ -43,11 +43,11 @@ public class AI_RoadController : MonoBehaviour {
             //aiBuildHw();
             //aiBuildHw();
 
-            aiBuildMetro();
-            aiBuildMetro();
-            aiBuildMetro();
-            aiBuildMetro();
-            aiBuildMetro();
+            //aiBuildMetro();
+            //aiBuildMetro();
+            //aiBuildMetro();
+            //aiBuildMetro();
+            //aiBuildMetro();
 
             b = false;
         }

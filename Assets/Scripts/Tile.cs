@@ -107,7 +107,7 @@ public class Tile : IXmlSerializable {
         cbTileInfrastructureChanged(this, networkType, player);
 
         foreach (Tile tile in getNeighbours()) {
-            if (tile != null) {
+            if (tile != null && tile.hasPlayerInfrastructure(networkType, player)) {
                 tile.cbTileInfrastructureChanged(tile, networkType, player);
             }
         }
@@ -224,9 +224,12 @@ public class Tile : IXmlSerializable {
         }
     }
 
-    /// Consider add 1 with a offset? eg + 0.5f?
     public Vector3 toVector3() {
         return new Vector3(X, Y, 0);
+    }
+
+    public Vector2 toVector2() {
+        return new Vector2(X, Y);
     }
 
     public string name {
@@ -317,24 +320,20 @@ public class Tile : IXmlSerializable {
     }
 
     public void ReadXml(XmlReader reader) {
-        Debug.Log(reader.NodeType + "Name: " + reader.Name + "value: " + reader.Value);
-        type = (TileType)int.Parse(reader.GetAttribute("Type"));
+        Debug.Log("hei");
+        setType((TileType)int.Parse(reader.GetAttribute("Type")));
 
-
-
-        //Debug.Log("Name: " +reader.Name);
         if (reader.ReadToDescendant("City")) {
-            Debug.Log("iscity" + "value: " + reader.Value);
-            //Debug.Log("Name: " + reader.Name);
+            isCity = true;
+            World.world.add_cityToList(this);
 
             XmlSerializer serializer = new XmlSerializer(typeof(City));
 
             // The tile is a city tile so create a new city.
             city = (City)serializer.Deserialize(reader);
-            city.ReadXml(reader);
         }
 
-        //Debug.Log("Name: " + reader.Name);
+        Debug.Log("Name: " + reader.Name);
 
         if (reader.ReadToDescendant("Road")) {
             // We have at least one road owner, so do something with it.
@@ -367,6 +366,11 @@ public class Tile : IXmlSerializable {
             do {
                 add_infrastructureOwner(NetworkType.HST, World.world.playerController.getPlayerByName(reader.GetAttribute("Owner")));
             } while (reader.ReadToNextSibling("Hst"));
+        }
+
+        if (!reader.IsEmptyElement) {
+            Debug.Log("hei");
+            reader.ReadEndElement();
         }
     }
 

@@ -137,7 +137,7 @@ public class NetworkController {
         Dictionary<CityPair, Vehicle> existingVehicles = new Dictionary<CityPair, Vehicle>();
 
         foreach (Network network in networksToMerge) {
-            foreach (KeyValuePair< CityPair, Vehicle> keyValuePair in network.vehicles) {
+            foreach (KeyValuePair<CityPair, Vehicle> keyValuePair in network.vehicles) {
                 existingVehicles.Add(keyValuePair.Key, keyValuePair.Value);
             }
         }
@@ -148,15 +148,14 @@ public class NetworkController {
             // Check if network exists.
             if (!networks.Contains(network)) {
                 Debug.LogError("network does not exist");
+                continue;
             }
 
-            else {
-                // Merge theNetwork with network.
-                theNetwork.addTiles(network.tiles.ToArray(), false);
+            // Merge theNetwork with network.
+            theNetwork.addTiles(network.tiles.ToArray(), false);
 
-                // Delete network
-                deleteNetwork(network);
-            }
+            // Delete network
+            deleteNetwork(network);
         }
 
         theNetwork.vehicles = existingVehicles;
@@ -187,7 +186,7 @@ public class NetworkController {
         /// Multithread?
         Tile currentTile;
         foreach (Network network in networks) {
-            foreach (KeyValuePair<CityPair, Vehicle> keyValuePair in network.vehicles) {
+             foreach (KeyValuePair<CityPair, Vehicle> keyValuePair in network.vehicles) {
 
                 currentTile = World.world.getTileAt(keyValuePair.Value.position);
                 if (currentTile == null) {
@@ -213,6 +212,7 @@ public class NetworkController {
 
                 else {
                     Debug.LogError("We dont have a direction?");
+                    /// Just find a direction?
                 }
 
                 if (currentTile != World.world.getTileAt(keyValuePair.Value.position)) {

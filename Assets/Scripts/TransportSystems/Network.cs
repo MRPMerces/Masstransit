@@ -72,7 +72,7 @@ public class Network {
                 Vector2 direction = Vector2.zero;
                 Tile currentTile = cityPair.start;
                 Tile nextTile = cityPair.path[1];
-
+                /// Move finding direction to the network operations.
                 if (currentTile.X != nextTile.X) {
                     if (currentTile.X > nextTile.X) {
                         direction.x = -1;

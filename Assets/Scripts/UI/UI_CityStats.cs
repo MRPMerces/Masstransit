@@ -25,10 +25,13 @@ public class UI_CityStats : MonoBehaviour {
 
             cityName.text = "City name: " + currentCity.name;
             cityPopulation.text = "City population: " + currentCity.population;
-            cityAirport.text = "City has airport: " + (currentCity.hasAirport).ToString();
-            cityMetro.text = "City has a metro: " + (currentCity.hasMetro).ToString();
-            cityMetrolines.text = "City has: " + metroController.amountOfMetroLinesInCity(currentCity) + " metrolines";
-            cityMetrostations.text = "City has: " + metroController.amountOfMetroStationsInCity(currentCity) + " metrostations";
+            cityAirport.text = "City has airport: " + currentCity.hasAirport.ToString();
+            cityMetro.text = "City has a metro: " + currentCity.hasMetro.ToString();
+
+            if (currentCity.hasMetro) {
+                cityMetrolines.text = "City has: " + metroController.amountOfMetroLinesInCity(currentCity) + " metrolines";
+                cityMetrostations.text = "City has: " + metroController.amountOfMetroStationsInCity(currentCity) + " metrostations";
+            }
             return;
         }
 

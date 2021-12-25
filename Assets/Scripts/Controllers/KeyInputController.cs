@@ -20,31 +20,27 @@ public class KeyInputController : MonoBehaviour {
         #region Overlays
         if (Input.GetKeyDown(KeyCode.F1)) {
             disableOverlays();
-            InfrastructureSpriteController.infrastructureSpriteController.enableOverlays(true);
+            InfrastructureSpriteController.infrastructureSpriteController.enableSprites();
         }
 
         if (Input.GetKeyDown(KeyCode.F2)) {
             disableOverlays();
-            InfrastructureOverlayController.infrastructureOverlayController.enableOverlays(NetworkType.Road, human);
-            InfrastructureSpriteController.infrastructureSpriteController.enableOverlays(false);
+            InfrastructureSpriteController.infrastructureSpriteController.enableOverlays(NetworkType.Road, human);
         }
 
         if (Input.GetKeyDown(KeyCode.F3)) {
             disableOverlays();
-            InfrastructureOverlayController.infrastructureOverlayController.enableOverlays(NetworkType.Highway, human);
-            InfrastructureSpriteController.infrastructureSpriteController.enableOverlays(false);
+            InfrastructureSpriteController.infrastructureSpriteController.enableOverlays(NetworkType.Highway, human);
         }
 
         if (Input.GetKeyDown(KeyCode.F4)) {
             disableOverlays();
-            InfrastructureOverlayController.infrastructureOverlayController.enableOverlays(NetworkType.LST, human);
-            InfrastructureSpriteController.infrastructureSpriteController.enableOverlays(false);
+            InfrastructureSpriteController.infrastructureSpriteController.enableOverlays(NetworkType.LST, human);
         }
 
         if (Input.GetKeyDown(KeyCode.F5)) {
             disableOverlays();
-            InfrastructureOverlayController.infrastructureOverlayController.enableOverlays(NetworkType.HST, human);
-            InfrastructureSpriteController.infrastructureSpriteController.enableOverlays(false);
+            InfrastructureSpriteController.infrastructureSpriteController.enableOverlays(NetworkType.HST, human);
         }
 
         if (Input.GetKeyDown(KeyCode.F6)) {
@@ -80,7 +76,7 @@ public class KeyInputController : MonoBehaviour {
     }
 
     public void disableOverlays() {
-        InfrastructureOverlayController.infrastructureOverlayController.disAbleOverlays();
+        InfrastructureSpriteController.infrastructureSpriteController.disableOverlays();
 
         World.world.airportGraph.disableAirportOverlay();
         TileSpriteController.tileSpriteController.enableBorder(false);

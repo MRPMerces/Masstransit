@@ -5,21 +5,35 @@ public class InfrastructureSpriteController : MonoBehaviour {
 
     public static InfrastructureSpriteController infrastructureSpriteController;
 
-    public Dictionary<Tile, Dictionary<Player, GameObject>> roadSprites { get; protected set; }
-    public Dictionary<Tile, Dictionary<Player, GameObject>> highwaySprites { get; protected set; }
-    public Dictionary<Tile, Dictionary<Player, GameObject>> lstSprites { get; protected set; }
-    public Dictionary<Tile, Dictionary<Player, GameObject>> hstSprites { get; protected set; }
+    Dictionary<Tile, Dictionary<Player, GameObject>> roadSprites;
+    Dictionary<Tile, Dictionary<Player, GameObject>> roadOverlays;
 
-    Dictionary<string, Sprite> infrastructureSprites;
+    Dictionary<Tile, Dictionary<Player, GameObject>> highwaySprites;
+    Dictionary<Tile, Dictionary<Player, GameObject>> highwayOverlays;
+
+    Dictionary<Tile, Dictionary<Player, GameObject>> lstSprites;
+    Dictionary<Tile, Dictionary<Player, GameObject>> lstOverlays;
+
+    Dictionary<Tile, Dictionary<Player, GameObject>> hstSprites;
+    Dictionary<Tile, Dictionary<Player, GameObject>> hstOverlays;
+
+    Dictionary<string, Sprite> sprites;
 
     // Start is called before the first frame update
     private void Start() {
         infrastructureSpriteController = this;
 
         roadSprites = new Dictionary<Tile, Dictionary<Player, GameObject>>();
+        roadOverlays = new Dictionary<Tile, Dictionary<Player, GameObject>>();
+
         highwaySprites = new Dictionary<Tile, Dictionary<Player, GameObject>>();
+        highwayOverlays = new Dictionary<Tile, Dictionary<Player, GameObject>>();
+
         lstSprites = new Dictionary<Tile, Dictionary<Player, GameObject>>();
+        lstOverlays = new Dictionary<Tile, Dictionary<Player, GameObject>>();
+
         hstSprites = new Dictionary<Tile, Dictionary<Player, GameObject>>();
+        hstOverlays = new Dictionary<Tile, Dictionary<Player, GameObject>>();
 
         loadSprites();
 
@@ -31,32 +45,24 @@ public class InfrastructureSpriteController : MonoBehaviour {
         /// Add build time for infrastructure, when that is done, this implementation is fine. Dont remove the callback.
         switch (type) {
             case NetworkType.Road:
-                if (tile.road.Count > 0) {
-                    processSprite(roadSprites, player, tile, type, "road_");
-                }
-
-                break;
+                processSprite(roadSprites, player, tile, type, "road_", Color.clear);
+                processSprite(roadOverlays, player, tile, type, "overlay_", new Color(60, 46, 32));
+                return;
 
             case NetworkType.Highway:
-                if (tile.highway.Count > 0) {
-                    processSprite(highwaySprites, player, tile, type, "highway_");
-                }
-
-                break;
+                processSprite(highwaySprites, player, tile, type, "highway_", Color.clear);
+                processSprite(highwayOverlays, player, tile, type, "overlay_", new Color(60, 46, 32));
+                return;
 
             case NetworkType.LST:
-                if (tile.lst.Count > 0) {
-                    processSprite(lstSprites, player, tile, type, "lst_");
-                }
-
-                break;
+                processSprite(lstSprites, player, tile, type, "lst_", Color.clear);
+                processSprite(lstOverlays, player, tile, type, "overlay_", new Color(60, 46, 32));
+                return;
 
             case NetworkType.HST:
-                if (tile.hst.Count > 0) {
-                    processSprite(hstSprites, player, tile, type, "hst_");
-                }
-
-                break;
+                processSprite(hstSprites, player, tile, type, "hst_", Color.clear);
+                processSprite(hstOverlays, player, tile, type, "overlay_", new Color(60, 46, 32));
+                return;
 
             default:
                 Debug.LogError("Unregognised type");
@@ -64,31 +70,36 @@ public class InfrastructureSpriteController : MonoBehaviour {
         }
     }
 
-    private void processSprite(Dictionary<Tile, Dictionary<Player, GameObject>> overlay, Player player, Tile tile, NetworkType type, string spriteType) {
-        if (!overlay.ContainsKey(tile)) {
-            GameObject gameObject = new GameObject { name = "Tile_" + tile.X + "_" + tile.Y };
+    private void processSprite(Dictionary<Tile, Dictionary<Player, GameObject>> spriteMap, Player player, Tile tile, NetworkType type, string spriteType, Color color) {
+        if (!spriteMap.ContainsKey(tile)) {
+            GameObject gameObject = new GameObject(spriteType == "overlay_" ? tile.name + "_overlay" : tile.name);
             gameObject.transform.position = tile.toVector3();
             gameObject.transform.SetParent(transform, true);
 
             // Add a Sprite Renderer
-            gameObject.AddComponent<SpriteRenderer>().sortingLayerName = "Infrastructure";
+            SpriteRenderer spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
+            spriteRenderer.sortingLayerName = "Infrastructure";
 
             // Add our tile/GO pair to the dictionary.
-            overlay.Add(tile, new Dictionary<Player, GameObject> { { player, gameObject } });
+            spriteMap.Add(tile, new Dictionary<Player, GameObject> { { player, gameObject } });
         }
 
         // Debug only remove when all the sprites are added.
-        if (!infrastructureSprites.ContainsKey(spriteType + findSprite(tile, player, type))) {
-            overlay[tile][player].GetComponent<SpriteRenderer>().sprite = infrastructureSprites[spriteType];
+        if (!sprites.ContainsKey(spriteType + findSprite(tile, player, type))) {
+            spriteMap[tile][player].GetComponent<SpriteRenderer>().sprite = sprites[spriteType];
         }
 
         else {
             // Set the sprite of the gameobject's spriterenderer to the sprite that infrastructureSprites spits out with the given spritname.
-            overlay[tile][player].GetComponent<SpriteRenderer>().sprite = infrastructureSprites[spriteType + findSprite(tile, player, type)];
+            spriteMap[tile][player].GetComponent<SpriteRenderer>().sprite = sprites[spriteType + findSprite(tile, player, type)];
+        }
+
+        if (color != Color.clear) {
+            spriteMap[tile][player].GetComponent<SpriteRenderer>().color = color;
         }
     }
 
-    public string findSprite(Tile tile, Player player, NetworkType networkType) {
+    private string findSprite(Tile tile, Player player, NetworkType networkType) {
 
         // Get the neighbourng tiles so that we can check the adjacent tiles for infrastructure.
         Tile[] tiles = tile.getNeighbours();
@@ -100,9 +111,8 @@ public class InfrastructureSpriteController : MonoBehaviour {
         if (checkTile(north, networkType, player)) {
             if (checkTile(south, networkType, player)) {
                 if (checkTile(east, networkType, player)) {
-
-                    // 4X junction
                     if (checkTile(west, networkType, player)) {
+                        // 4X junction
                         return "x_junction";
                     }
 
@@ -110,8 +120,8 @@ public class InfrastructureSpriteController : MonoBehaviour {
                     return "north_east_south";
                 }
 
-                // 3X junction
                 if (checkTile(west, networkType, player)) {
+                    // 3X junction
                     return "north_south_west";
                 }
 
@@ -120,9 +130,8 @@ public class InfrastructureSpriteController : MonoBehaviour {
             }
 
             if (checkTile(east, networkType, player)) {
-
-                // 3X junction
                 if (checkTile(west, networkType, player)) {
+                    // 3X junction
                     return "north_east_west";
                 }
 
@@ -130,8 +139,8 @@ public class InfrastructureSpriteController : MonoBehaviour {
                 return "north_east";
             }
 
-            // Rigth
             if (checkTile(west, networkType, player)) {
+                // Rigth
                 return "north_west";
             }
 
@@ -141,9 +150,8 @@ public class InfrastructureSpriteController : MonoBehaviour {
 
         if (checkTile(south, networkType, player)) {
             if (checkTile(east, networkType, player)) {
-
-                // 3X junction
                 if (checkTile(west, networkType, player)) {
+                    // 3X junction
                     return "east_south_west";
                 }
 
@@ -151,8 +159,8 @@ public class InfrastructureSpriteController : MonoBehaviour {
                 return "east_south";
             }
 
-            // Rigth
             if (checkTile(west, networkType, player)) {
+                // Rigth
                 return "south_west";
             }
 
@@ -161,9 +169,8 @@ public class InfrastructureSpriteController : MonoBehaviour {
         }
 
         if (checkTile(east, networkType, player)) {
-
-            // straight
             if (checkTile(west, networkType, player)) {
+                // straight
                 return "east_west";
             }
 
@@ -171,8 +178,8 @@ public class InfrastructureSpriteController : MonoBehaviour {
             return "east_dead_end";
         }
 
-        // Deadend
         if (checkTile(west, networkType, player)) {
+            // Deadend
             return "west_dead_end";
         }
 
@@ -183,65 +190,75 @@ public class InfrastructureSpriteController : MonoBehaviour {
         return tile != null && tile.hasPlayerInfrastructure(networkType, player);
     }
 
-
     private void loadSprites() {
-        infrastructureSprites = new Dictionary<string, Sprite>();
+        sprites = new Dictionary<string, Sprite>();
+
         Sprite[] infrastructureprites = Resources.LoadAll<Sprite>("Sprites/TileInfrastructureSprites/");
+        Sprite[] overlaysprites = Resources.LoadAll<Sprite>("Sprites/OverlaySprites/");
 
         foreach (Sprite sprite in infrastructureprites) {
-            infrastructureSprites[sprite.name] = sprite;
+            sprites[sprite.name] = sprite;
+        }
+
+        foreach (Sprite sprite in overlaysprites) {
+            sprites[sprite.name] = sprite;
         }
     }
 
-    public void enableOverlays(bool enable = true) {
-        enableSprites(roadSprites, enable);
-        enableSprites(highwaySprites, enable);
-        enableSprites(lstSprites, enable);
-        enableSprites(hstSprites, enable);
-    }
+    public void enableOverlays(NetworkType type, Player player, bool enable = true) {
+        if (enable) {
+            // Activate all existing overlays.
+            enableSprites(false);
 
-    void enableSprites(Dictionary<Tile, Dictionary<Player, GameObject>> spriteDictionary, bool enable) {
-        foreach (Tile tile in spriteDictionary.Keys) {
-            foreach (GameObject gameObject in spriteDictionary[tile].Values) {
-                gameObject.SetActive(enable);
-            }
-        }
-    }
-
-    private void assignSpritesOnSaveLoad(Tile[] tiles, NetworkType type, Player player) {
-        foreach (Tile tile in tiles) {
             switch (type) {
                 case NetworkType.Road:
-                    if (tile.road.Count > 0) {
-                        processSprite(roadSprites, player, tile, type, "road_");
-                    }
+                    activateGameobjects(roadSprites, true);
 
-                    break;
+                    return;
 
                 case NetworkType.Highway:
-                    if (tile.highway.Count > 0) {
-                        processSprite(highwaySprites, player, tile, type, "highway_");
-                    }
+                    activateGameobjects(roadSprites, true);
 
-                    break;
+                    return;
 
                 case NetworkType.LST:
-                    if (tile.lst.Count > 0) {
-                        processSprite(lstSprites, player, tile, type, "lst_");
-                    }
+                    activateGameobjects(roadSprites, true);
 
-                    break;
+                    return;
 
                 case NetworkType.HST:
-                    if (tile.hst.Count > 0) {
-                        processSprite(hstSprites, player, tile, type, "hst_");
-                    }
+                    activateGameobjects(roadSprites, true);
 
-                    break;
+                    return;
 
                 default:
                     Debug.LogError("Unregognised type");
                     return;
+            }
+        }
+
+        enableSprites();
+        disableOverlays();
+    }
+
+    public void disableOverlays() {
+        activateGameobjects(roadOverlays, false);
+        activateGameobjects(highwayOverlays, false);
+        activateGameobjects(lstOverlays, false);
+        activateGameobjects(hstOverlays, false);
+    }
+
+    public void enableSprites(bool enable = true) {
+        activateGameobjects(roadSprites, enable);
+        activateGameobjects(highwaySprites, enable);
+        activateGameobjects(lstSprites, enable);
+        activateGameobjects(hstSprites, enable);
+    }
+
+    void activateGameobjects(Dictionary<Tile, Dictionary<Player, GameObject>> spriteDictionary, bool enable) {
+        foreach (Tile tile in spriteDictionary.Keys) {
+            foreach (GameObject gameObject in spriteDictionary[tile].Values) {
+                gameObject.SetActive(enable);
             }
         }
     }

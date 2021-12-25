@@ -136,7 +136,7 @@ public class Player : IXmlSerializable {
             actualMoney += amount * modifiers.operatingIncome.value * companyOwnership;
 
             if (type == PlayerType.Human) {
-                Debug.Log("+ " + (amount * modifiers.operatingIncome.value * companyOwnership) + " Money");
+                //Debug.Log("+ " + (amount * modifiers.operatingIncome.value * companyOwnership) + " Money");
             }
         }
 

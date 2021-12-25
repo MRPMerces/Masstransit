@@ -11,9 +11,6 @@ public class Vehicle {
         position = new Vector2(startTile.X, startTile.Y);
         direction = Vector2.zero;
         reversed = false;
-
-        Debug.Log(startTile.name);
-        Debug.Log(destinationTile.name);
     }
 
     public VehicleType vehicleType { get; private set; }
