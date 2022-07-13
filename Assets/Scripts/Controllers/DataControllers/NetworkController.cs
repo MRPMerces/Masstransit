@@ -180,13 +180,13 @@ public class NetworkController {
     }
 
     public void operation(float modifier, float speed = 0.0833333333333333f) {
-        //speed = 0.25f;
+        //speed = 0.13f;
 
         // operation tick once per ingame hour.
         /// Multithread?
         Tile currentTile;
         foreach (Network network in networks) {
-             foreach (KeyValuePair<CityPair, Vehicle> keyValuePair in network.vehicles) {
+            foreach (KeyValuePair<CityPair, Vehicle> keyValuePair in network.vehicles) {
 
                 currentTile = World.world.getTileAt(keyValuePair.Value.position);
                 if (currentTile == null) {
@@ -215,6 +215,8 @@ public class NetworkController {
                     /// Just find a direction?
                 }
 
+                Debug.Log("pos: " + keyValuePair.Value.position.x.ToString());
+
                 if (currentTile != World.world.getTileAt(keyValuePair.Value.position)) {
                     // We have moved to a new tile.
 
@@ -227,10 +229,20 @@ public class NetworkController {
                         float demand = (keyValuePair.Key.start.city.population + keyValuePair.Key.end.city.population) / Mathf.Pow(keyValuePair.Key.distance, 2) * modifier;
                         network.owner.opereatingIncome(demand);
 
+                        Debug.Log("Overshoot: " + keyValuePair.Value.position.x.ToString());
+
                         // Keep extra movement.
-                        keyValuePair.Value.translate(
-                            -(keyValuePair.Value.position.x - Mathf.FloorToInt(keyValuePair.Value.position.x)),
-                            -(keyValuePair.Value.position.y - Mathf.FloorToInt(keyValuePair.Value.position.y)));
+
+                        float xx = keyValuePair.Value.position.x - currentTile.X;
+                        float yy = keyValuePair.Value.position.y - currentTile.Y;
+
+                        if (keyValuePair.Value.direction.x == 0) {
+                            keyValuePair.Value.translate(0, -(2 * yy));
+                        }
+
+                        else {
+                            keyValuePair.Value.translate(-(2 * xx), 0);
+                        }
 
                         // Reverse the start and end tile and the path.
                         keyValuePair.Value.reverse();

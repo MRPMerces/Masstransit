@@ -175,8 +175,9 @@ public class NetworkGraph {
     Tile[] reconstruct_path(Dictionary<Path_Node<Tile>, Path_Node<Tile>> Came_From, Path_Node<Tile> endNode) {
         // We want to go backwards through Came_From map, until we reach the "end" of that map. Which will be the start node!
 
-        List<Tile> path = new List<Tile>();
-        path.Add(endNode.data);
+        List<Tile> path = new List<Tile> {
+            endNode.data
+        };
 
         while (Came_From.ContainsKey(endNode)) {
             // Came_From is a map, where the key => value relation is realy saying some_node => we_got_there_from_this_node

@@ -21,7 +21,8 @@ public class TrainSpriteController : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        foreach (Network network in World.world.road.networks) {
+        
+        foreach (Network network in World.world.lst.networks) {
             foreach (KeyValuePair<CityPair, Vehicle> keyValuePair in network.vehicles) {
                 if (!LS_Trains.ContainsKey(keyValuePair.Value)) {
                     GameObject gameObject = new GameObject("Test");

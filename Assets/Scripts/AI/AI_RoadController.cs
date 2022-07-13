@@ -55,7 +55,7 @@ public class AI_RoadController : MonoBehaviour {
 
     void aiBuildRoad() {
         int pop1 = 0;
-        int pop2 = 0;
+        int pop2;
         Tile t1 = null;
         Tile t2 = null;
         foreach (Tile tile in tiles) {

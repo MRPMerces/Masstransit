@@ -24,7 +24,7 @@ public class Vehicle {
     public Vector2 direction;
 
     public bool reversed { get; private set; }
-
+    
     public void reverse() {
         Tile temp = startTile;
         startTile = destinationTile;

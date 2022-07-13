@@ -93,7 +93,7 @@ public class World : IXmlSerializable {
     /// Gets the tile at the unity-space coordinates
     /// </summary>
     /// <returns>The tile at world coordinate.</returns>
-    /// <param name="vector3">Unity World-Space coordinates.</param>
+    /// <param name="vector2">Tile coordinates.</param>
     public Tile getTileAt(Vector2 vector2) {
         return getTileAt(Mathf.FloorToInt(vector2.x + 0.5f), Mathf.FloorToInt(vector2.y + 0.5f));
     }
