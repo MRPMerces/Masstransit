@@ -8,13 +8,13 @@ using UnityEngine;
 public enum PlayerType { Human, Ai };
 
 public class Player : IXmlSerializable {
-    public Player(PlayerType type, string name, int id, Modifier[] characterModifiers = null) {
+    public Player(PlayerType type, string name, int id, Dictionary<ModifierType, float> characterModifiers = null) {
         this.characterModifiers = characterModifiers;
         this.type = type;
         this.name = name;
 
         //policies = new PolicyController;
-        modifiers = new ModifierController();
+        modifiers = new ModifierManager();
         companyOwnership = 1f;
         actualMoney = 100000000;
 
@@ -30,12 +30,12 @@ public class Player : IXmlSerializable {
     /// <summary>
     /// All modifiers that affect the player.
     /// </summary>
-    public ModifierController modifiers { get; protected set; }
+    public ModifierManager modifiers { get; protected set; }
 
     /// <summary>
     ///  Modifiers that the characther has. eg railway empire characheter spesific modifiers
     /// </summary>
-    readonly Modifier[] characterModifiers;
+    readonly Dictionary<ModifierType, float> characterModifiers;
 
     public Loan loan1 { get; set; }
     public Loan loan2 { get; set; }
@@ -64,7 +64,7 @@ public class Player : IXmlSerializable {
     /// Use this if the constructionCost modifier should be applied.
     /// </summary>
     public void constructionCost(int amount) {
-        float expendeture = (amount * modifiers.constructionCost.value);
+        float expendeture = (amount * modifiers.globalModifiers[ModifierType.ConstructionCost]);
         if (actualMoney - expendeture < 0) {
             Debug.LogError("Insufficient funds!");
             return;
@@ -84,7 +84,7 @@ public class Player : IXmlSerializable {
     }
 
     public void constructionCost(float amount) {
-        float expendeture = (amount * modifiers.constructionCost.value);
+        float expendeture = (amount * modifiers.globalModifiers[ModifierType.ConstructionCost]);
         if (actualMoney - expendeture < 0) {
             Debug.LogError("Insufficient funds!");
             return;
@@ -108,10 +108,10 @@ public class Player : IXmlSerializable {
     /// </summary>
     public void opereatingIncome(int amount) {
         if (amount > 0) {
-            actualMoney += amount * modifiers.operatingIncome.value * companyOwnership;
+            actualMoney += amount * modifiers.globalModifiers[ModifierType.OperatingIncome] * companyOwnership;
 
             if (type == PlayerType.Human) {
-                Debug.Log("+ " + (amount * modifiers.operatingIncome.value * companyOwnership) + " Money");
+                Debug.Log("+ " + (amount * modifiers.globalModifiers[ModifierType.OperatingIncome] * companyOwnership) + " Money");
             }
         }
 
@@ -133,7 +133,7 @@ public class Player : IXmlSerializable {
     /// </summary>
     public void opereatingIncome(float amount) {
         if (amount > 0) {
-            actualMoney += amount * modifiers.operatingIncome.value * companyOwnership;
+            actualMoney += amount * modifiers.globalModifiers[ModifierType.OperatingIncome] * companyOwnership;
 
             if (type == PlayerType.Human) {
                 //Debug.Log("+ " + (amount * modifiers.operatingIncome.value * companyOwnership) + " Money");
@@ -159,7 +159,7 @@ public class Player : IXmlSerializable {
     /// <param name="amount">The constructioncost to test</param>
     /// <returns>ool can/ can't afford</returns>
     public bool canAffordConstructionCost(int amount) {
-        return amount * modifiers.constructionCost.value < actualMoney;
+        return amount * modifiers.globalModifiers[ModifierType.ConstructionCost] < actualMoney;
     }
 
     /// <summary>
@@ -168,7 +168,7 @@ public class Player : IXmlSerializable {
     /// <param name="amount">The constructioncost to test</param>
     /// <returns>ool can/ can't afford</returns>
     public bool canAffordConstructionCost(float amount) {
-        return amount * modifiers.constructionCost.value < actualMoney;
+        return amount * modifiers.globalModifiers[ModifierType.ConstructionCost] < actualMoney;
     }
 
     //public PolicyController policies { get; protected set; }
@@ -176,13 +176,13 @@ public class Player : IXmlSerializable {
     /// <summary>
     /// Function to update all the player spesific modifiers.
     /// </summary>
-    public void update_modifiers(Modifier[] externalModifiers) {
+    public void update_modifiers(Dictionary<ModifierType, float> externalModifiers) {
+        modifiers.update_modifiers(externalModifiers);
+    }
 
-        List<Modifier> tempModifiers = new List<Modifier>();
-        //modifiers.Add(policies.policies);
-        tempModifiers.AddRange(externalModifiers);
+    public void update_modifiers(ModifierType type, float value) {
 
-        modifiers.update_modifiers(tempModifiers.ToArray());
+        modifiers.update_modifiers(type, value);
     }
 
     public void update_companyOwnership(float f) {

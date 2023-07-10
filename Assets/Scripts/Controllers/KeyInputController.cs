@@ -25,12 +25,12 @@ public class KeyInputController : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.F2)) {
             disableOverlays();
-            InfrastructureSpriteController.infrastructureSpriteController.enableOverlays(NetworkType.Road, human);
+            InfrastructureSpriteController.infrastructureSpriteController.enableOverlays(NetworkType.ROAD, human);
         }
 
         if (Input.GetKeyDown(KeyCode.F3)) {
             disableOverlays();
-            InfrastructureSpriteController.infrastructureSpriteController.enableOverlays(NetworkType.Highway, human);
+            InfrastructureSpriteController.infrastructureSpriteController.enableOverlays(NetworkType.HIGHWAY, human);
         }
 
         if (Input.GetKeyDown(KeyCode.F4)) {

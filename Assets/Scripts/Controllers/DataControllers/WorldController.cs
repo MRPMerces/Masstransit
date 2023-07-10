@@ -1,26 +1,18 @@
-﻿using System.IO;
-using System.Xml;
-using System.Xml.Schema;
-using System.Xml.Serialization;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class WorldController : MonoBehaviour {
-    World world;
+    public static WorldController worldController { get; protected set; }
 
-    static bool loadWorldbool = false;
+    World world;
 
     // Start is called before the first frame update
     void OnEnable() {
+        worldController = this;
+        this.world = new World(25, 25);
+        // createWorld(new World(25, 25));
 
-        if (loadWorldbool) {
-            loadWorldbool = false;
-            createWorldFromSaveFile();
-        }
-
-        else {
-            createEmptyWorld();
-        }
+        randomizeCityTiles();
 
         Debug.Log(world.tilesWithCity.Count + " Cities");
 
@@ -28,10 +20,17 @@ public class WorldController : MonoBehaviour {
         Camera.main.transform.position = new Vector3(world.Width / 2, world.Height / 2, Camera.main.transform.position.z);
     }
 
-    void createEmptyWorld() {
-        world = new World(25, 25);
+    public void createWorld(World world) {
+        this.world = world;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 
-        randomizeCityTiles();
+    public void saveWorld() {
+        //XmlSerializer serializer = new XmlSerializer(typeof(World));
+        //FileStream stream = new FileStream(Application.dataPath + "/Resources/Data/SaveGame00.xml", FileMode.Create);
+
+        // serializer.Serialize(stream, WorldController.worldController.world);
+        //stream.Close();
     }
 
     /// <summary>
@@ -43,42 +42,5 @@ public class WorldController : MonoBehaviour {
                 tile.createCity();
             }
         }
-    }
-    
-    #region Saving and loading
-
-    public void newWorld() {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        createEmptyWorld();
-    }
-
-    public void saveWorld() {
-        XmlSerializer serializer = new XmlSerializer(typeof(World));
-        FileStream stream = new FileStream(Application.dataPath + "/Resources/Data/SaveGame00.xml", FileMode.Create);
-
-        serializer.Serialize(stream, world);
-        stream.Close();
-    }
-
-    public void loadWorld() {
-
-        // Reload the scene to reset all the data.
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-
-        loadWorldbool = true;
-    }
-
-    void createWorldFromSaveFile() {
-
-        FileStream stream = new FileStream(Application.dataPath + "/Resources/Data/SaveGame00.xml", FileMode.Open);
-
-        XmlSerializer serializer = new XmlSerializer(typeof(World));
-
-        world = (World)serializer.Deserialize(stream);
-        stream.Close();
-    }
-
-    #endregion Saving and loading
+    }  
 }
-
-/// Look at quills furntiure.xml reading and replace this one with that one i tinkerino.

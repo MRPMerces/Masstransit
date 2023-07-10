@@ -37,7 +37,7 @@ public class City : IXmlSerializable {
 
     public void addNetworkConnection(NetworkType type, bool remove = false) {
         switch (type) {
-            case NetworkType.Road:
+            case NetworkType.ROAD:
                 if (remove) {
                     hasRoadConnection = false;
                 }
@@ -48,7 +48,7 @@ public class City : IXmlSerializable {
 
                 return;
 
-            case NetworkType.Highway:
+            case NetworkType.HIGHWAY:
                 if (remove) {
                     hasHighwayConnection = false;
                 }

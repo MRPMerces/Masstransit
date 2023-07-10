@@ -1,26 +1,28 @@
 <?xml version="1.0"?>
 <World Width="25" Height="25">
   <Tiles>
-    <Tile X="0" Y="0" Type="1">
-      <City Name="city0" Population="1310" />
-    </Tile>
+    <Tile X="0" Y="0" Type="0" />
     <Tile X="0" Y="1" Type="0" />
     <Tile X="0" Y="2" Type="0" />
-    <Tile X="0" Y="3" Type="0" />
+    <Tile X="0" Y="3" Type="1">
+      <City Name="city0" Population="11190" />
+    </Tile>
     <Tile X="0" Y="4" Type="0" />
     <Tile X="0" Y="5" Type="0" />
-    <Tile X="0" Y="6" Type="1">
-      <City Name="city1" Population="14510" />
-    </Tile>
+    <Tile X="0" Y="6" Type="0" />
     <Tile X="0" Y="7" Type="0" />
     <Tile X="0" Y="8" Type="0" />
-    <Tile X="0" Y="9" Type="0" />
+    <Tile X="0" Y="9" Type="1">
+      <City Name="city1" Population="24890" />
+    </Tile>
     <Tile X="0" Y="10" Type="0" />
     <Tile X="0" Y="11" Type="0" />
     <Tile X="0" Y="12" Type="0" />
     <Tile X="0" Y="13" Type="0" />
     <Tile X="0" Y="14" Type="0" />
-    <Tile X="0" Y="15" Type="0" />
+    <Tile X="0" Y="15" Type="1">
+      <City Name="city2" Population="2390" />
+    </Tile>
     <Tile X="0" Y="16" Type="0" />
     <Tile X="0" Y="17" Type="0" />
     <Tile X="0" Y="18" Type="0" />
@@ -28,9 +30,7 @@
     <Tile X="0" Y="20" Type="0" />
     <Tile X="0" Y="21" Type="0" />
     <Tile X="0" Y="22" Type="0" />
-    <Tile X="0" Y="23" Type="1">
-      <City Name="city2" Population="18810" />
-    </Tile>
+    <Tile X="0" Y="23" Type="0" />
     <Tile X="0" Y="24" Type="0" />
     <Tile X="1" Y="0" Type="0" />
     <Tile X="1" Y="1" Type="0" />
@@ -43,20 +43,18 @@
     <Tile X="1" Y="8" Type="0" />
     <Tile X="1" Y="9" Type="0" />
     <Tile X="1" Y="10" Type="0" />
-    <Tile X="1" Y="11" Type="0" />
+    <Tile X="1" Y="11" Type="1">
+      <City Name="city3" Population="2590" />
+    </Tile>
     <Tile X="1" Y="12" Type="0" />
     <Tile X="1" Y="13" Type="0" />
-    <Tile X="1" Y="14" Type="1">
-      <City Name="city3" Population="12210" />
-    </Tile>
+    <Tile X="1" Y="14" Type="0" />
     <Tile X="1" Y="15" Type="0" />
     <Tile X="1" Y="16" Type="0" />
     <Tile X="1" Y="17" Type="0" />
     <Tile X="1" Y="18" Type="0" />
     <Tile X="1" Y="19" Type="0" />
-    <Tile X="1" Y="20" Type="1">
-      <City Name="city4" Population="10310" />
-    </Tile>
+    <Tile X="1" Y="20" Type="0" />
     <Tile X="1" Y="21" Type="0" />
     <Tile X="1" Y="22" Type="0" />
     <Tile X="1" Y="23" Type="0" />
@@ -68,10 +66,10 @@
     <Tile X="2" Y="4" Type="0" />
     <Tile X="2" Y="5" Type="0" />
     <Tile X="2" Y="6" Type="0" />
-    <Tile X="2" Y="7" Type="0" />
-    <Tile X="2" Y="8" Type="1">
-      <City Name="city5" Population="1910" />
+    <Tile X="2" Y="7" Type="1">
+      <City Name="city4" Population="22690" />
     </Tile>
+    <Tile X="2" Y="8" Type="0" />
     <Tile X="2" Y="9" Type="0" />
     <Tile X="2" Y="10" Type="0" />
     <Tile X="2" Y="11" Type="0" />
@@ -90,9 +88,13 @@
     <Tile X="2" Y="24" Type="0" />
     <Tile X="3" Y="0" Type="0" />
     <Tile X="3" Y="1" Type="0" />
-    <Tile X="3" Y="2" Type="0" />
+    <Tile X="3" Y="2" Type="1">
+      <City Name="city5" Population="8490" />
+    </Tile>
     <Tile X="3" Y="3" Type="0" />
-    <Tile X="3" Y="4" Type="0" />
+    <Tile X="3" Y="4" Type="1">
+      <City Name="city6" Population="14290" />
+    </Tile>
     <Tile X="3" Y="5" Type="0" />
     <Tile X="3" Y="6" Type="0" />
     <Tile X="3" Y="7" Type="0" />
@@ -105,7 +107,9 @@
     <Tile X="3" Y="14" Type="0" />
     <Tile X="3" Y="15" Type="0" />
     <Tile X="3" Y="16" Type="0" />
-    <Tile X="3" Y="17" Type="0" />
+    <Tile X="3" Y="17" Type="1">
+      <City Name="city7" Population="24690" />
+    </Tile>
     <Tile X="3" Y="18" Type="0" />
     <Tile X="3" Y="19" Type="0" />
     <Tile X="3" Y="20" Type="0" />
@@ -122,35 +126,37 @@
     <Tile X="4" Y="6" Type="0" />
     <Tile X="4" Y="7" Type="0" />
     <Tile X="4" Y="8" Type="0" />
-    <Tile X="4" Y="9" Type="1">
-      <City Name="city6" Population="3310" />
-    </Tile>
+    <Tile X="4" Y="9" Type="0" />
     <Tile X="4" Y="10" Type="0" />
     <Tile X="4" Y="11" Type="0" />
     <Tile X="4" Y="12" Type="0" />
     <Tile X="4" Y="13" Type="0" />
     <Tile X="4" Y="14" Type="0" />
     <Tile X="4" Y="15" Type="1">
-      <City Name="city7" Population="19710" />
+      <City Name="city8" Population="13190" />
     </Tile>
     <Tile X="4" Y="16" Type="0" />
-    <Tile X="4" Y="17" Type="1">
-      <City Name="city8" Population="23610" />
-    </Tile>
+    <Tile X="4" Y="17" Type="0" />
     <Tile X="4" Y="18" Type="0" />
-    <Tile X="4" Y="19" Type="0" />
+    <Tile X="4" Y="19" Type="1">
+      <City Name="city9" Population="7490" />
+    </Tile>
     <Tile X="4" Y="20" Type="0" />
     <Tile X="4" Y="21" Type="0" />
     <Tile X="4" Y="22" Type="0" />
     <Tile X="4" Y="23" Type="0" />
-    <Tile X="4" Y="24" Type="0" />
-    <Tile X="5" Y="0" Type="0" />
-    <Tile X="5" Y="1" Type="0" />
-    <Tile X="5" Y="2" Type="0" />
-    <Tile X="5" Y="3" Type="0" />
-    <Tile X="5" Y="4" Type="1">
-      <City Name="city9" Population="18210" />
+    <Tile X="4" Y="24" Type="1">
+      <City Name="city10" Population="1490" />
     </Tile>
+    <Tile X="5" Y="0" Type="1">
+      <City Name="city11" Population="13790" />
+    </Tile>
+    <Tile X="5" Y="1" Type="0" />
+    <Tile X="5" Y="2" Type="1">
+      <City Name="city12" Population="12690" />
+    </Tile>
+    <Tile X="5" Y="3" Type="0" />
+    <Tile X="5" Y="4" Type="0" />
     <Tile X="5" Y="5" Type="0" />
     <Tile X="5" Y="6" Type="0" />
     <Tile X="5" Y="7" Type="0" />
@@ -177,9 +183,7 @@
     <Tile X="6" Y="3" Type="0" />
     <Tile X="6" Y="4" Type="0" />
     <Tile X="6" Y="5" Type="0" />
-    <Tile X="6" Y="6" Type="1">
-      <City Name="city10" Population="20310" />
-    </Tile>
+    <Tile X="6" Y="6" Type="0" />
     <Tile X="6" Y="7" Type="0" />
     <Tile X="6" Y="8" Type="0" />
     <Tile X="6" Y="9" Type="0" />
@@ -188,25 +192,25 @@
     <Tile X="6" Y="12" Type="0" />
     <Tile X="6" Y="13" Type="0" />
     <Tile X="6" Y="14" Type="0" />
-    <Tile X="6" Y="15" Type="1">
-      <City Name="city11" Population="17610" />
+    <Tile X="6" Y="15" Type="0" />
+    <Tile X="6" Y="16" Type="1">
+      <City Name="city13" Population="24490" />
     </Tile>
-    <Tile X="6" Y="16" Type="0" />
     <Tile X="6" Y="17" Type="0" />
     <Tile X="6" Y="18" Type="0" />
     <Tile X="6" Y="19" Type="0" />
     <Tile X="6" Y="20" Type="0" />
     <Tile X="6" Y="21" Type="0" />
-    <Tile X="6" Y="22" Type="1">
-      <City Name="city12" Population="8410" />
+    <Tile X="6" Y="22" Type="0" />
+    <Tile X="6" Y="23" Type="1">
+      <City Name="city14" Population="22190" />
     </Tile>
-    <Tile X="6" Y="23" Type="0" />
     <Tile X="6" Y="24" Type="0" />
-    <Tile X="7" Y="0" Type="0" />
-    <Tile X="7" Y="1" Type="0" />
-    <Tile X="7" Y="2" Type="1">
-      <City Name="city13" Population="4710" />
+    <Tile X="7" Y="0" Type="1">
+      <City Name="city15" Population="790" />
     </Tile>
+    <Tile X="7" Y="1" Type="0" />
+    <Tile X="7" Y="2" Type="0" />
     <Tile X="7" Y="3" Type="0" />
     <Tile X="7" Y="4" Type="0" />
     <Tile X="7" Y="5" Type="0" />
@@ -215,12 +219,12 @@
     <Tile X="7" Y="8" Type="0" />
     <Tile X="7" Y="9" Type="0" />
     <Tile X="7" Y="10" Type="0" />
-    <Tile X="7" Y="11" Type="1">
-      <City Name="city14" Population="2010" />
-    </Tile>
+    <Tile X="7" Y="11" Type="0" />
     <Tile X="7" Y="12" Type="0" />
     <Tile X="7" Y="13" Type="0" />
-    <Tile X="7" Y="14" Type="0" />
+    <Tile X="7" Y="14" Type="1">
+      <City Name="city16" Population="12290" />
+    </Tile>
     <Tile X="7" Y="15" Type="0" />
     <Tile X="7" Y="16" Type="0" />
     <Tile X="7" Y="17" Type="0" />
@@ -235,13 +239,17 @@
     <Tile X="8" Y="1" Type="0" />
     <Tile X="8" Y="2" Type="0" />
     <Tile X="8" Y="3" Type="0" />
-    <Tile X="8" Y="4" Type="0" />
+    <Tile X="8" Y="4" Type="1">
+      <City Name="city17" Population="18090" />
+    </Tile>
     <Tile X="8" Y="5" Type="0" />
     <Tile X="8" Y="6" Type="0" />
     <Tile X="8" Y="7" Type="0" />
     <Tile X="8" Y="8" Type="0" />
     <Tile X="8" Y="9" Type="0" />
-    <Tile X="8" Y="10" Type="0" />
+    <Tile X="8" Y="10" Type="1">
+      <City Name="city18" Population="20090" />
+    </Tile>
     <Tile X="8" Y="11" Type="0" />
     <Tile X="8" Y="12" Type="0" />
     <Tile X="8" Y="13" Type="0" />
@@ -260,25 +268,19 @@
     <Tile X="9" Y="1" Type="0" />
     <Tile X="9" Y="2" Type="0" />
     <Tile X="9" Y="3" Type="0" />
-    <Tile X="9" Y="4" Type="1">
-      <City Name="city15" Population="19810" />
-    </Tile>
+    <Tile X="9" Y="4" Type="0" />
     <Tile X="9" Y="5" Type="0" />
     <Tile X="9" Y="6" Type="0" />
     <Tile X="9" Y="7" Type="0" />
     <Tile X="9" Y="8" Type="0" />
     <Tile X="9" Y="9" Type="0" />
     <Tile X="9" Y="10" Type="0" />
-    <Tile X="9" Y="11" Type="1">
-      <City Name="city16" Population="23710" />
-    </Tile>
+    <Tile X="9" Y="11" Type="0" />
     <Tile X="9" Y="12" Type="0" />
     <Tile X="9" Y="13" Type="0" />
     <Tile X="9" Y="14" Type="0" />
     <Tile X="9" Y="15" Type="0" />
-    <Tile X="9" Y="16" Type="1">
-      <City Name="city17" Population="10510" />
-    </Tile>
+    <Tile X="9" Y="16" Type="0" />
     <Tile X="9" Y="17" Type="0" />
     <Tile X="9" Y="18" Type="0" />
     <Tile X="9" Y="19" Type="0" />
@@ -296,25 +298,27 @@
     <Tile X="10" Y="6" Type="0" />
     <Tile X="10" Y="7" Type="0" />
     <Tile X="10" Y="8" Type="0" />
-    <Tile X="10" Y="9" Type="0" />
+    <Tile X="10" Y="9" Type="1">
+      <City Name="city19" Population="9190" />
+    </Tile>
     <Tile X="10" Y="10" Type="0" />
     <Tile X="10" Y="11" Type="0" />
     <Tile X="10" Y="12" Type="0" />
     <Tile X="10" Y="13" Type="0" />
-    <Tile X="10" Y="14" Type="0" />
+    <Tile X="10" Y="14" Type="1">
+      <City Name="city20" Population="12290" />
+    </Tile>
     <Tile X="10" Y="15" Type="0" />
     <Tile X="10" Y="16" Type="0" />
     <Tile X="10" Y="17" Type="0" />
     <Tile X="10" Y="18" Type="0" />
     <Tile X="10" Y="19" Type="0" />
     <Tile X="10" Y="20" Type="0" />
-    <Tile X="10" Y="21" Type="1">
-      <City Name="city18" Population="10210" />
+    <Tile X="10" Y="21" Type="0" />
+    <Tile X="10" Y="22" Type="1">
+      <City Name="city21" Population="9790" />
     </Tile>
-    <Tile X="10" Y="22" Type="0" />
-    <Tile X="10" Y="23" Type="1">
-      <City Name="city19" Population="23310" />
-    </Tile>
+    <Tile X="10" Y="23" Type="0" />
     <Tile X="10" Y="24" Type="0" />
     <Tile X="11" Y="0" Type="0" />
     <Tile X="11" Y="1" Type="0" />
@@ -324,9 +328,7 @@
     <Tile X="11" Y="5" Type="0" />
     <Tile X="11" Y="6" Type="0" />
     <Tile X="11" Y="7" Type="0" />
-    <Tile X="11" Y="8" Type="1">
-      <City Name="city20" Population="19010" />
-    </Tile>
+    <Tile X="11" Y="8" Type="0" />
     <Tile X="11" Y="9" Type="0" />
     <Tile X="11" Y="10" Type="0" />
     <Tile X="11" Y="11" Type="0" />
@@ -334,12 +336,12 @@
     <Tile X="11" Y="13" Type="0" />
     <Tile X="11" Y="14" Type="0" />
     <Tile X="11" Y="15" Type="0" />
-    <Tile X="11" Y="16" Type="0" />
+    <Tile X="11" Y="16" Type="1">
+      <City Name="city22" Population="14690" />
+    </Tile>
     <Tile X="11" Y="17" Type="0" />
     <Tile X="11" Y="18" Type="0" />
-    <Tile X="11" Y="19" Type="1">
-      <City Name="city21" Population="14410" />
-    </Tile>
+    <Tile X="11" Y="19" Type="0" />
     <Tile X="11" Y="20" Type="0" />
     <Tile X="11" Y="21" Type="0" />
     <Tile X="11" Y="22" Type="0" />
@@ -350,23 +352,21 @@
     <Tile X="12" Y="2" Type="0" />
     <Tile X="12" Y="3" Type="0" />
     <Tile X="12" Y="4" Type="0" />
-    <Tile X="12" Y="5" Type="1">
-      <City Name="city22" Population="23010" />
-    </Tile>
+    <Tile X="12" Y="5" Type="0" />
     <Tile X="12" Y="6" Type="0" />
     <Tile X="12" Y="7" Type="0" />
     <Tile X="12" Y="8" Type="0" />
     <Tile X="12" Y="9" Type="0" />
     <Tile X="12" Y="10" Type="0" />
     <Tile X="12" Y="11" Type="0" />
-    <Tile X="12" Y="12" Type="0" />
+    <Tile X="12" Y="12" Type="1">
+      <City Name="city23" Population="24890" />
+    </Tile>
     <Tile X="12" Y="13" Type="0" />
     <Tile X="12" Y="14" Type="0" />
     <Tile X="12" Y="15" Type="0" />
     <Tile X="12" Y="16" Type="0" />
-    <Tile X="12" Y="17" Type="1">
-      <City Name="city23" Population="3410" />
-    </Tile>
+    <Tile X="12" Y="17" Type="0" />
     <Tile X="12" Y="18" Type="0" />
     <Tile X="12" Y="19" Type="0" />
     <Tile X="12" Y="20" Type="0" />
@@ -378,24 +378,30 @@
     <Tile X="13" Y="1" Type="0" />
     <Tile X="13" Y="2" Type="0" />
     <Tile X="13" Y="3" Type="0" />
-    <Tile X="13" Y="4" Type="0" />
+    <Tile X="13" Y="4" Type="1">
+      <City Name="city24" Population="18290" />
+    </Tile>
     <Tile X="13" Y="5" Type="0" />
     <Tile X="13" Y="6" Type="0" />
     <Tile X="13" Y="7" Type="0" />
-    <Tile X="13" Y="8" Type="0" />
+    <Tile X="13" Y="8" Type="1">
+      <City Name="city25" Population="14790" />
+    </Tile>
     <Tile X="13" Y="9" Type="0" />
-    <Tile X="13" Y="10" Type="0" />
+    <Tile X="13" Y="10" Type="1">
+      <City Name="city26" Population="8090" />
+    </Tile>
     <Tile X="13" Y="11" Type="0" />
     <Tile X="13" Y="12" Type="0" />
     <Tile X="13" Y="13" Type="0" />
     <Tile X="13" Y="14" Type="0" />
     <Tile X="13" Y="15" Type="0" />
     <Tile X="13" Y="16" Type="0" />
-    <Tile X="13" Y="17" Type="0" />
-    <Tile X="13" Y="18" Type="0" />
-    <Tile X="13" Y="19" Type="1">
-      <City Name="city24" Population="18810" />
+    <Tile X="13" Y="17" Type="1">
+      <City Name="city27" Population="11390" />
     </Tile>
+    <Tile X="13" Y="18" Type="0" />
+    <Tile X="13" Y="19" Type="0" />
     <Tile X="13" Y="20" Type="0" />
     <Tile X="13" Y="21" Type="0" />
     <Tile X="13" Y="22" Type="0" />
@@ -403,10 +409,10 @@
     <Tile X="13" Y="24" Type="0" />
     <Tile X="14" Y="0" Type="0" />
     <Tile X="14" Y="1" Type="0" />
-    <Tile X="14" Y="2" Type="0" />
-    <Tile X="14" Y="3" Type="1">
-      <City Name="city25" Population="9410" />
+    <Tile X="14" Y="2" Type="1">
+      <City Name="city28" Population="23190" />
     </Tile>
+    <Tile X="14" Y="3" Type="0" />
     <Tile X="14" Y="4" Type="0" />
     <Tile X="14" Y="5" Type="0" />
     <Tile X="14" Y="6" Type="0" />
@@ -428,16 +434,16 @@
     <Tile X="14" Y="22" Type="0" />
     <Tile X="14" Y="23" Type="0" />
     <Tile X="14" Y="24" Type="0" />
-    <Tile X="15" Y="0" Type="0" />
+    <Tile X="15" Y="0" Type="1">
+      <City Name="city29" Population="14490" />
+    </Tile>
     <Tile X="15" Y="1" Type="0" />
     <Tile X="15" Y="2" Type="0" />
     <Tile X="15" Y="3" Type="0" />
     <Tile X="15" Y="4" Type="0" />
     <Tile X="15" Y="5" Type="0" />
     <Tile X="15" Y="6" Type="0" />
-    <Tile X="15" Y="7" Type="1">
-      <City Name="city26" Population="22910" />
-    </Tile>
+    <Tile X="15" Y="7" Type="0" />
     <Tile X="15" Y="8" Type="0" />
     <Tile X="15" Y="9" Type="0" />
     <Tile X="15" Y="10" Type="0" />
@@ -447,17 +453,19 @@
     <Tile X="15" Y="14" Type="0" />
     <Tile X="15" Y="15" Type="0" />
     <Tile X="15" Y="16" Type="0" />
-    <Tile X="15" Y="17" Type="0" />
+    <Tile X="15" Y="17" Type="1">
+      <City Name="city30" Population="5590" />
+    </Tile>
     <Tile X="15" Y="18" Type="0" />
     <Tile X="15" Y="19" Type="0" />
     <Tile X="15" Y="20" Type="0" />
     <Tile X="15" Y="21" Type="0" />
     <Tile X="15" Y="22" Type="0" />
     <Tile X="15" Y="23" Type="0" />
-    <Tile X="15" Y="24" Type="0" />
-    <Tile X="16" Y="0" Type="1">
-      <City Name="city27" Population="24610" />
+    <Tile X="15" Y="24" Type="1">
+      <City Name="city31" Population="4190" />
     </Tile>
+    <Tile X="16" Y="0" Type="0" />
     <Tile X="16" Y="1" Type="0" />
     <Tile X="16" Y="2" Type="0" />
     <Tile X="16" Y="3" Type="0" />
@@ -466,9 +474,7 @@
     <Tile X="16" Y="6" Type="0" />
     <Tile X="16" Y="7" Type="0" />
     <Tile X="16" Y="8" Type="0" />
-    <Tile X="16" Y="9" Type="1">
-      <City Name="city28" Population="12910" />
-    </Tile>
+    <Tile X="16" Y="9" Type="0" />
     <Tile X="16" Y="10" Type="0" />
     <Tile X="16" Y="11" Type="0" />
     <Tile X="16" Y="12" Type="0" />
@@ -483,37 +489,37 @@
     <Tile X="16" Y="21" Type="0" />
     <Tile X="16" Y="22" Type="0" />
     <Tile X="16" Y="23" Type="0" />
-    <Tile X="16" Y="24" Type="1">
-      <City Name="city29" Population="15810" />
+    <Tile X="16" Y="24" Type="0" />
+    <Tile X="17" Y="0" Type="1">
+      <City Name="city32" Population="8490" />
     </Tile>
-    <Tile X="17" Y="0" Type="0" />
     <Tile X="17" Y="1" Type="0" />
     <Tile X="17" Y="2" Type="0" />
     <Tile X="17" Y="3" Type="0" />
     <Tile X="17" Y="4" Type="0" />
     <Tile X="17" Y="5" Type="0" />
-    <Tile X="17" Y="6" Type="1">
-      <City Name="city30" Population="1910" />
-    </Tile>
+    <Tile X="17" Y="6" Type="0" />
     <Tile X="17" Y="7" Type="0" />
     <Tile X="17" Y="8" Type="0" />
     <Tile X="17" Y="9" Type="0" />
     <Tile X="17" Y="10" Type="0" />
-    <Tile X="17" Y="11" Type="0" />
+    <Tile X="17" Y="11" Type="1">
+      <City Name="city33" Population="13890" />
+    </Tile>
     <Tile X="17" Y="12" Type="0" />
     <Tile X="17" Y="13" Type="0" />
     <Tile X="17" Y="14" Type="1">
-      <City Name="city31" Population="22510" />
+      <City Name="city34" Population="13790" />
     </Tile>
     <Tile X="17" Y="15" Type="0" />
     <Tile X="17" Y="16" Type="0" />
-    <Tile X="17" Y="17" Type="0" />
+    <Tile X="17" Y="17" Type="1">
+      <City Name="city35" Population="3890" />
+    </Tile>
     <Tile X="17" Y="18" Type="0" />
     <Tile X="17" Y="19" Type="0" />
     <Tile X="17" Y="20" Type="0" />
-    <Tile X="17" Y="21" Type="1">
-      <City Name="city32" Population="4910" />
-    </Tile>
+    <Tile X="17" Y="21" Type="0" />
     <Tile X="17" Y="22" Type="0" />
     <Tile X="17" Y="23" Type="0" />
     <Tile X="17" Y="24" Type="0" />
@@ -528,9 +534,7 @@
     <Tile X="18" Y="8" Type="0" />
     <Tile X="18" Y="9" Type="0" />
     <Tile X="18" Y="10" Type="0" />
-    <Tile X="18" Y="11" Type="1">
-      <City Name="city33" Population="1910" />
-    </Tile>
+    <Tile X="18" Y="11" Type="0" />
     <Tile X="18" Y="12" Type="0" />
     <Tile X="18" Y="13" Type="0" />
     <Tile X="18" Y="14" Type="0" />
@@ -546,9 +550,7 @@
     <Tile X="18" Y="24" Type="0" />
     <Tile X="19" Y="0" Type="0" />
     <Tile X="19" Y="1" Type="0" />
-    <Tile X="19" Y="2" Type="1">
-      <City Name="city34" Population="7910" />
-    </Tile>
+    <Tile X="19" Y="2" Type="0" />
     <Tile X="19" Y="3" Type="0" />
     <Tile X="19" Y="4" Type="0" />
     <Tile X="19" Y="5" Type="0" />
@@ -558,21 +560,23 @@
     <Tile X="19" Y="9" Type="0" />
     <Tile X="19" Y="10" Type="0" />
     <Tile X="19" Y="11" Type="0" />
-    <Tile X="19" Y="12" Type="0" />
+    <Tile X="19" Y="12" Type="1">
+      <City Name="city36" Population="2390" />
+    </Tile>
     <Tile X="19" Y="13" Type="0" />
     <Tile X="19" Y="14" Type="0" />
     <Tile X="19" Y="15" Type="0" />
     <Tile X="19" Y="16" Type="0" />
-    <Tile X="19" Y="17" Type="0" />
+    <Tile X="19" Y="17" Type="1">
+      <City Name="city37" Population="20790" />
+    </Tile>
     <Tile X="19" Y="18" Type="0" />
     <Tile X="19" Y="19" Type="1">
-      <City Name="city35" Population="2210" />
+      <City Name="city38" Population="19690" />
     </Tile>
     <Tile X="19" Y="20" Type="0" />
     <Tile X="19" Y="21" Type="0" />
-    <Tile X="19" Y="22" Type="1">
-      <City Name="city36" Population="3710" />
-    </Tile>
+    <Tile X="19" Y="22" Type="0" />
     <Tile X="19" Y="23" Type="0" />
     <Tile X="19" Y="24" Type="0" />
     <Tile X="20" Y="0" Type="0" />
@@ -586,16 +590,14 @@
     <Tile X="20" Y="8" Type="0" />
     <Tile X="20" Y="9" Type="0" />
     <Tile X="20" Y="10" Type="0" />
-    <Tile X="20" Y="11" Type="1">
-      <City Name="city37" Population="5510" />
-    </Tile>
+    <Tile X="20" Y="11" Type="0" />
     <Tile X="20" Y="12" Type="0" />
     <Tile X="20" Y="13" Type="0" />
     <Tile X="20" Y="14" Type="0" />
-    <Tile X="20" Y="15" Type="0" />
-    <Tile X="20" Y="16" Type="1">
-      <City Name="city38" Population="3510" />
+    <Tile X="20" Y="15" Type="1">
+      <City Name="city39" Population="21890" />
     </Tile>
+    <Tile X="20" Y="16" Type="0" />
     <Tile X="20" Y="17" Type="0" />
     <Tile X="20" Y="18" Type="0" />
     <Tile X="20" Y="19" Type="0" />
@@ -603,21 +605,21 @@
     <Tile X="20" Y="21" Type="0" />
     <Tile X="20" Y="22" Type="0" />
     <Tile X="20" Y="23" Type="0" />
-    <Tile X="20" Y="24" Type="0" />
-    <Tile X="21" Y="0" Type="0" />
-    <Tile X="21" Y="1" Type="1">
-      <City Name="city39" Population="8510" />
+    <Tile X="20" Y="24" Type="1">
+      <City Name="city40" Population="5790" />
     </Tile>
+    <Tile X="21" Y="0" Type="0" />
+    <Tile X="21" Y="1" Type="0" />
     <Tile X="21" Y="2" Type="0" />
     <Tile X="21" Y="3" Type="0" />
-    <Tile X="21" Y="4" Type="0" />
+    <Tile X="21" Y="4" Type="1">
+      <City Name="city41" Population="24390" />
+    </Tile>
     <Tile X="21" Y="5" Type="0" />
     <Tile X="21" Y="6" Type="0" />
     <Tile X="21" Y="7" Type="0" />
     <Tile X="21" Y="8" Type="0" />
-    <Tile X="21" Y="9" Type="1">
-      <City Name="city40" Population="7810" />
-    </Tile>
+    <Tile X="21" Y="9" Type="0" />
     <Tile X="21" Y="10" Type="0" />
     <Tile X="21" Y="11" Type="0" />
     <Tile X="21" Y="12" Type="0" />
@@ -630,17 +632,13 @@
     <Tile X="21" Y="19" Type="0" />
     <Tile X="21" Y="20" Type="0" />
     <Tile X="21" Y="21" Type="0" />
-    <Tile X="21" Y="22" Type="1">
-      <City Name="city41" Population="5610" />
-    </Tile>
+    <Tile X="21" Y="22" Type="0" />
     <Tile X="21" Y="23" Type="0" />
     <Tile X="21" Y="24" Type="0" />
     <Tile X="22" Y="0" Type="0" />
     <Tile X="22" Y="1" Type="0" />
     <Tile X="22" Y="2" Type="0" />
-    <Tile X="22" Y="3" Type="1">
-      <City Name="city42" Population="23210" />
-    </Tile>
+    <Tile X="22" Y="3" Type="0" />
     <Tile X="22" Y="4" Type="0" />
     <Tile X="22" Y="5" Type="0" />
     <Tile X="22" Y="6" Type="0" />
@@ -648,17 +646,13 @@
     <Tile X="22" Y="8" Type="0" />
     <Tile X="22" Y="9" Type="0" />
     <Tile X="22" Y="10" Type="0" />
-    <Tile X="22" Y="11" Type="1">
-      <City Name="city43" Population="2210" />
-    </Tile>
+    <Tile X="22" Y="11" Type="0" />
     <Tile X="22" Y="12" Type="0" />
     <Tile X="22" Y="13" Type="0" />
     <Tile X="22" Y="14" Type="0" />
     <Tile X="22" Y="15" Type="0" />
     <Tile X="22" Y="16" Type="0" />
-    <Tile X="22" Y="17" Type="1">
-      <City Name="city44" Population="24010" />
-    </Tile>
+    <Tile X="22" Y="17" Type="0" />
     <Tile X="22" Y="18" Type="0" />
     <Tile X="22" Y="19" Type="0" />
     <Tile X="22" Y="20" Type="0" />
@@ -667,11 +661,13 @@
     <Tile X="22" Y="23" Type="0" />
     <Tile X="22" Y="24" Type="0" />
     <Tile X="23" Y="0" Type="1">
-      <City Name="city45" Population="20010" />
+      <City Name="city42" Population="690" />
     </Tile>
     <Tile X="23" Y="1" Type="0" />
     <Tile X="23" Y="2" Type="0" />
-    <Tile X="23" Y="3" Type="0" />
+    <Tile X="23" Y="3" Type="1">
+      <City Name="city43" Population="11590" />
+    </Tile>
     <Tile X="23" Y="4" Type="0" />
     <Tile X="23" Y="5" Type="0" />
     <Tile X="23" Y="6" Type="0" />
@@ -682,7 +678,9 @@
     <Tile X="23" Y="11" Type="0" />
     <Tile X="23" Y="12" Type="0" />
     <Tile X="23" Y="13" Type="0" />
-    <Tile X="23" Y="14" Type="0" />
+    <Tile X="23" Y="14" Type="1">
+      <City Name="city44" Population="20490" />
+    </Tile>
     <Tile X="23" Y="15" Type="0" />
     <Tile X="23" Y="16" Type="0" />
     <Tile X="23" Y="17" Type="0" />
@@ -697,15 +695,17 @@
     <Tile X="24" Y="1" Type="0" />
     <Tile X="24" Y="2" Type="0" />
     <Tile X="24" Y="3" Type="0" />
-    <Tile X="24" Y="4" Type="1">
-      <City Name="city46" Population="17610" />
-    </Tile>
+    <Tile X="24" Y="4" Type="0" />
     <Tile X="24" Y="5" Type="0" />
     <Tile X="24" Y="6" Type="0" />
-    <Tile X="24" Y="7" Type="0" />
+    <Tile X="24" Y="7" Type="1">
+      <City Name="city45" Population="6790" />
+    </Tile>
     <Tile X="24" Y="8" Type="0" />
     <Tile X="24" Y="9" Type="0" />
-    <Tile X="24" Y="10" Type="0" />
+    <Tile X="24" Y="10" Type="1">
+      <City Name="city46" Population="990" />
+    </Tile>
     <Tile X="24" Y="11" Type="0" />
     <Tile X="24" Y="12" Type="0" />
     <Tile X="24" Y="13" Type="0" />
@@ -720,7 +720,7 @@
     <Tile X="24" Y="22" Type="0" />
     <Tile X="24" Y="23" Type="0" />
     <Tile X="24" Y="24" Type="1">
-      <City Name="city47" Population="11010" />
+      <City Name="city47" Population="23390" />
     </Tile>
   </Tiles>
 </World>

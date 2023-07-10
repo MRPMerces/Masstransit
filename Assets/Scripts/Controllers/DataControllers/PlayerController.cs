@@ -14,7 +14,7 @@ public class PlayerController {
     public List<Player> players { get; protected set; }
     public Player human { get; protected set; }
 
-    public void update_playerModifiers(Modifier[] modifiers) {
+    public void update_playerModifiers(Dictionary<ModifierType, float> modifiers) {
         foreach (Player player in players) {
             player.update_modifiers(modifiers);
         }

@@ -102,7 +102,6 @@ public class NetworkGraph {
         // Make sure our start/end tiles are in the list of nodes!
         if (startNode == null) {
             Debug.LogError("Path_AStar: The starting tile isn't in the list of nodes!");
-
             return null;
         }
 

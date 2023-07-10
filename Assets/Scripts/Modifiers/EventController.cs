@@ -23,12 +23,14 @@ public class EventController : MonoBehaviour {
         disaster();
     }
 
-    Modifier[] getEventModifiers() {
-        List<Modifier> modifiers = new List<Modifier>();
-        foreach (Event E in activeEvents) {
-            modifiers.AddRange(E.modifiers);
+    Dictionary<ModifierType, float> getEventModifiers() {
+        Dictionary<ModifierType, float> modifiers = new Dictionary<ModifierType, float>();
+        foreach (Event e in activeEvents) {
+            foreach (KeyValuePair< ModifierType, float> modifier in e.modifiers) {
+                modifiers[modifier.Key] += modifier.Value;
+            }
         }
-        return modifiers.ToArray();
+        return modifiers;
     }
 
     /// <summary>
@@ -48,25 +50,25 @@ public class EventController : MonoBehaviour {
     }
 
     void createEvents() {
-        Modifier[] modifiers;
+        //Modifier[] modifiers;
 
-        // Pandemic
-        modifiers = new Modifier[2];
-        modifiers[0] = new Modifier(ModifierType.ConstructionCost, 0.5f);
-        modifiers[1] = new Modifier(ModifierType.Ridership, 0.1f);
-        /// hstrain = 0
-        /// lstrain = 0.1
-        /// road = 0.3
-        disaster_events.Add(new Event(modifiers, "event_pandemic", "event_disaster", SpeedController.speedController.currentDay, (int)(1825 / World.world.tech.era)));
+        //// Pandemic
+        //modifiers = new Modifier[2];
+        //modifiers[0] = new Modifier(ModifierType.ConstructionCost, 0.5f);
+        //modifiers[1] = new Modifier(ModifierType.Ridership, 0.1f);
+        ///// hstrain = 0
+        ///// lstrain = 0.1
+        ///// road = 0.3
+        //disaster_events.Add(new Event(modifiers, "event_pandemic", "event_disaster", SpeedController.speedController.currentDay, (int)(1825 / World.world.tech.era)));
 
-        // Era change
-        modifiers = new Modifier[2];
-        modifiers[0] = new Modifier(ModifierType.PopulationGrowth, 2f);
-        modifiers[1] = new Modifier(ModifierType.Ridership, 0.5f);
-        /// hstrain = 0
-        /// lstrain = 0.1
-        /// road = 0.3
-        disaster_events.Add(new Event(modifiers, "event_eraChange", "event_trigger", SpeedController.speedController.currentDay, 365));
+        //// Era change
+        //modifiers = new Modifier[2];
+        //modifiers[0] = new Modifier(ModifierType.PopulationGrowth, 2f);
+        //modifiers[1] = new Modifier(ModifierType.Ridership, 0.5f);
+        ///// hstrain = 0
+        ///// lstrain = 0.1
+        ///// road = 0.3
+        //disaster_events.Add(new Event(modifiers, "event_eraChange", "event_trigger", SpeedController.speedController.currentDay, 365));
     }
 
 

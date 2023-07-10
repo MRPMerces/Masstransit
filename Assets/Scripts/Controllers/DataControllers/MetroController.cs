@@ -64,8 +64,6 @@ public class MetroController : MonoBehaviour {
        get_metroByPlayer(city, player).add_metrostationToLine(line);
     }
 
-
-
     public bool hasPlayerAMetroInCity(City city, Player player) {
         if (player == null) {
             Debug.LogError("player is null");
@@ -89,7 +87,6 @@ public class MetroController : MonoBehaviour {
         return false;
     }
 
-
     public Metro get_metroByPlayer(City city, Player player) {
         if (!city.hasMetro) {
             Debug.LogError("City does not have a metro");
@@ -102,7 +99,7 @@ public class MetroController : MonoBehaviour {
             }
         }
 
-        Debug.LogError("Cant find a metro with owner player");
+        Debug.LogError("Cant find a metro with owner: " + player.name);
         return null;
     }
 

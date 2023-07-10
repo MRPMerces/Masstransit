@@ -1,7 +1,7 @@
 ﻿using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
-using UnityEngine;
+using System.Collections.Generic;
 
 public class Event {
     /// <summary>
@@ -9,7 +9,7 @@ public class Event {
     /// </summary>
     /// <param name="modifiers">Array of all the modifiers the event has.</param>
     /// <param name="name">Name of the event</param>
-    public Event(Modifier[] modifiers, string name, string type, int startDay, int duration) {
+    public Event(Dictionary<ModifierType, float> modifiers, string name, string type, int startDay, int duration) {
         this.modifiers = modifiers;
         this.name = name;
         this.type = type;
@@ -17,7 +17,7 @@ public class Event {
         this.duration = duration;
     }
 
-    public readonly Modifier[] modifiers;
+    public readonly Dictionary<ModifierType, float> modifiers;
 
     public readonly int startDay;
     public readonly int duration;

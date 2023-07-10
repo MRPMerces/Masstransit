@@ -12,14 +12,23 @@ public class Tile : IXmlSerializable {
         X = x;
         Y = y;
 
+        networkConections = new Dictionary<NetworkType, List<Player>>(4);
+
+        networkConections[NetworkType.ROAD] = new List<Player>();
+        networkConections[NetworkType.LST] = new List<Player>();
+        networkConections[NetworkType.HIGHWAY] = new List<Player>();
+        networkConections[NetworkType.HST] = new List<Player>();
+
         road = new List<Player>();
         highway = new List<Player>();
         lst = new List<Player>();
         hst = new List<Player>();
+
     }
 
     public City city { get; protected set; }
 
+    public Dictionary<NetworkType, List<Player>> networkConections { get; protected set; }
     //Infrastructure
     public List<Player> road { get; protected set; }
     public List<Player> highway { get; protected set; }
@@ -59,51 +68,21 @@ public class Tile : IXmlSerializable {
     public void createCity() {
         setType(TileType.City);
 
-        CityStats cityStats = World.world.newCityStats();
-        city = new City(cityStats.name, cityStats.population);
+        (string cityName, int cityPopulation) = World.world.newCityStats();
+        city = new City(cityName, cityPopulation);
         isCity = true;
 
         World.world.add_cityToList(this);
     }
 
-    public void add_infrastructureOwner(NetworkType type, Player owner) {
-        switch (type) {
-            case NetworkType.Road:
-                if (!road.Contains(owner)) {
-                    road.Add(owner);
-                    bleh(owner, type);
-                }
-                return;
-
-            case NetworkType.Highway:
-                if (!highway.Contains(owner)) {
-                    highway.Add(owner);
-                    bleh(owner, type);
-                }
-                return;
-
-            case NetworkType.LST:
-                if (!lst.Contains(owner)) {
-                    lst.Add(owner);
-                    bleh(owner, type);
-                }
-                return;
-
-            case NetworkType.HST:
-                if (!hst.Contains(owner)) {
-                    hst.Add(owner);
-                    bleh(owner, type);
-                }
-                return;
-
-            default:
-                Debug.LogError(type + " Unrecognised type");
-                return;
+    public void add_infrastructureOwner(NetworkType networkType, Player owner) {
+        if (!networkConections[networkType].Contains(owner)) {
+            networkConections[networkType].Add(owner);
+            updateNeighbours(owner, networkType);
         }
     }
 
-    /// Rename
-    void bleh(Player player, NetworkType networkType) {
+    void updateNeighbours(Player player, NetworkType networkType) {
         cbTileInfrastructureChanged(this, networkType, player);
 
         foreach (Tile tile in getNeighbours()) {
@@ -112,51 +91,14 @@ public class Tile : IXmlSerializable {
             }
         }
     }
+
     public void update_infrastructureOwner(NetworkType networkType, Player oldOwner, Player newOwner) {
-        switch (networkType) {
-            case NetworkType.Road:
-                road.Remove(oldOwner);
-                road.Add(newOwner);
-                break;
-
-            case NetworkType.Highway:
-                highway.Remove(oldOwner);
-                highway.Add(newOwner);
-                break;
-
-            case NetworkType.LST:
-                lst.Remove(oldOwner);
-                lst.Add(newOwner);
-                break;
-
-            case NetworkType.HST:
-                hst.Remove(oldOwner);
-                hst.Add(newOwner);
-                break;
-
-            default:
-                Debug.LogError(type + " Unrecognised type");
-                return;
-        }
+        networkConections[networkType].Remove(oldOwner);
+        networkConections[networkType].Add(newOwner);
     }
 
     public bool hasPlayerInfrastructure(NetworkType networkType, Player owner) {
-        switch (networkType) {
-            case NetworkType.Road:
-                return road.Contains(owner);
-
-            case NetworkType.Highway:
-                return highway.Contains(owner);
-
-            case NetworkType.LST:
-                return lst.Contains(owner);
-
-            case NetworkType.HST:
-                return hst.Contains(owner);
-            default:
-                Debug.LogError(networkType + " Unrecognised type");
-                return false;
-        }
+        return networkConections[networkType].Contains(owner);
     }
 
     public bool hasACityNeighbour() {
@@ -173,31 +115,31 @@ public class Tile : IXmlSerializable {
     /// Function that finds the neighbours
     /// </summary>
     /// <param name="diagOkay">Do the caller want the diagonale neighbours in the array</param>
-    /// <returns>A array of neighbouring tiles NOTE! some tiles migth be null
+    /// <returns>A array of neighbouring tiles NOTE! some tiles migth be null!
+    /// // Tile order : N E S W NE SE SW NW
     /// </returns>
     public Tile[] getNeighbours(bool diagOkay = false) {
-        Tile[] tiles;
-
-        if (diagOkay == false) {
-            tiles = new Tile[4];   // Tile order: N E S W
+        if (diagOkay) {
+            return new Tile[8]
+            {
+                World.world.getTileAt(X, Y + 1),
+                World.world.getTileAt(X + 1, Y),
+                World.world.getTileAt(X, Y - 1),
+                World.world.getTileAt(X - 1, Y),
+                World.world.getTileAt(X + 1, Y + 1),
+                World.world.getTileAt(X + 1, Y - 1),
+                World.world.getTileAt(X - 1, Y - 1),
+                World.world.getTileAt(X - 1, Y + 1)
+            };
         }
         else {
-            tiles = new Tile[8];   // Tile order : N E S W NE SE SW NW
+            return new Tile[4]{
+                World.world.getTileAt(X, Y + 1),
+                World.world.getTileAt(X + 1, Y),
+                World.world.getTileAt(X, Y - 1),
+                World.world.getTileAt(X - 1, Y)
+            };
         }
-
-        tiles[0] = World.world.getTileAt(X, Y + 1);
-        tiles[1] = World.world.getTileAt(X + 1, Y);
-        tiles[2] = World.world.getTileAt(X, Y - 1);
-        tiles[3] = World.world.getTileAt(X - 1, Y);
-
-        if (diagOkay == true) {
-            tiles[4] = World.world.getTileAt(X + 1, Y + 1);
-            tiles[5] = World.world.getTileAt(X + 1, Y - 1);
-            tiles[6] = World.world.getTileAt(X - 1, Y - 1);
-            tiles[7] = World.world.getTileAt(X - 1, Y + 1);
-        }
-
-        return tiles;
     }
 
     public Tile North {
@@ -340,7 +282,7 @@ public class Tile : IXmlSerializable {
 
             do {
                 Debug.Log("has road");
-                add_infrastructureOwner(NetworkType.Road, World.world.playerController.getPlayerByName(reader.GetAttribute("Owner")));
+                add_infrastructureOwner(NetworkType.ROAD, World.world.playerController.getPlayerByName(reader.GetAttribute("Owner")));
             } while (reader.ReadToNextSibling("Road"));
         }
 
@@ -348,7 +290,7 @@ public class Tile : IXmlSerializable {
             // We have at least one highway owner, so do something with it.
 
             do {
-                add_infrastructureOwner(NetworkType.Highway, World.world.playerController.getPlayerByName(reader.GetAttribute("Owner")));
+                add_infrastructureOwner(NetworkType.HIGHWAY, World.world.playerController.getPlayerByName(reader.GetAttribute("Owner")));
             } while (reader.ReadToNextSibling("Highway"));
         }
 

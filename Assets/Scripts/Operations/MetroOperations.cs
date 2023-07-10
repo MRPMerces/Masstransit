@@ -9,35 +9,35 @@ public class MetroOperations : MonoBehaviour {
     public void metro_Operations() {
 
         /// Capacity should be city wide.
-        foreach (Tile T in World.world.tilesWithCity) {
-            City C = T.city;
-            if (C.hasMetro) {
-                foreach (Metro metro in C.metros) {
+        foreach (Tile tile in World.world.tilesWithCity) {
+            City city = tile.city;
+            if (city.hasMetro) {
+                foreach (Metro metro in city.metros) {
                     // calculate capacity
                     int capacity = metro.get_amountOfMetrolinesInSystem() * 100000;
 
                     // calculate usage
                     float usage;
 
-                    float ridershipMod = metro.owner.modifiers.ridership.value;
+                    float ridershipMod = metro.owner.modifiers.globalModifiers[ModifierType.Ridership];
 
                     int mod = modifiers();
 
                     // Below capacity and great enoth population
-                    if (metro.catchment * ridershipMod < capacity && metro.catchment < C.population)
+                    if (metro.catchment * ridershipMod < capacity && metro.catchment < city.population)
                         usage = (metro.catchment / mod) * ridershipMod;
 
                     // Above capacity and great enoth population
-                    else if ((metro.catchment / mod) * ridershipMod > capacity && metro.catchment < C.population)
+                    else if ((metro.catchment / mod) * ridershipMod > capacity && metro.catchment < city.population)
                         usage = capacity;
 
                     // To small population
                     else
 
                         /// Needs catchment.
-                        usage = (C.population / mod) * ridershipMod;
+                        usage = (city.population / mod) * ridershipMod;
                     // Each rider pays 1 money each per gametick
-                    metro.owner.opereatingIncome((int)usage);
+                    metro.owner.opereatingIncome(usage);
                 }
             }
         }

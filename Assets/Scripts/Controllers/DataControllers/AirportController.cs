@@ -119,7 +119,7 @@ public class AirportController : MonoBehaviour {
             return;
         }
 
-        if (tile.isCity && tile.hasPlayerInfrastructure(NetworkType.Highway, player) && hasPlayerAAirport(tile, player)) {
+        if (tile.isCity && tile.hasPlayerInfrastructure(NetworkType.HIGHWAY, player) && hasPlayerAAirport(tile, player)) {
             Airport airport = get_airportByPlayer(tile.city, player);
             if (airport.highwayConnection) {
                 Debug.LogError("Airport allready have a highwayconnection");

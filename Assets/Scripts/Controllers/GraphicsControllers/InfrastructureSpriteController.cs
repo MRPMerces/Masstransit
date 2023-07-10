@@ -44,12 +44,12 @@ public class InfrastructureSpriteController : MonoBehaviour {
     private void OnTileInfrastructureChanged(Tile tile, NetworkType type, Player player) {
         /// Add build time for infrastructure, when that is done, this implementation is fine. Dont remove the callback.
         switch (type) {
-            case NetworkType.Road:
+            case NetworkType.ROAD:
                 processSprite(roadSprites, player, tile, type, "road_", Color.clear);
                 processSprite(roadOverlays, player, tile, type, "overlay_", new Color(60, 46, 32));
                 return;
 
-            case NetworkType.Highway:
+            case NetworkType.HIGHWAY:
                 processSprite(highwaySprites, player, tile, type, "highway_", Color.clear);
                 processSprite(highwayOverlays, player, tile, type, "overlay_", new Color(60, 46, 32));
                 return;
@@ -76,6 +76,10 @@ public class InfrastructureSpriteController : MonoBehaviour {
             gameObject.transform.position = tile.toVector3();
             gameObject.transform.SetParent(transform, true);
 
+
+            gameObject.transform.Rotate(0f, 0f, 0f);
+
+
             // Add a Sprite Renderer
             SpriteRenderer spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
             spriteRenderer.sortingLayerName = "Infrastructure";
@@ -84,14 +88,18 @@ public class InfrastructureSpriteController : MonoBehaviour {
             spriteMap.Add(tile, new Dictionary<Player, GameObject> { { player, gameObject } });
         }
 
+        (string spriteName, float rotation) = findSprite(tile, player, type);
+
+
+
         // Debug only remove when all the sprites are added.
-        if (!sprites.ContainsKey(spriteType + findSprite(tile, player, type))) {
+        if (!sprites.ContainsKey(spriteType + oldfindSprite(tile, player, type))) {
             spriteMap[tile][player].GetComponent<SpriteRenderer>().sprite = sprites[spriteType];
         }
 
         else {
             // Set the sprite of the gameobject's spriterenderer to the sprite that infrastructureSprites spits out with the given spritname.
-            spriteMap[tile][player].GetComponent<SpriteRenderer>().sprite = sprites[spriteType + findSprite(tile, player, type)];
+            spriteMap[tile][player].GetComponent<SpriteRenderer>().sprite = sprites[spriteType + oldfindSprite(tile, player, type)];
         }
 
         if (color != Color.clear) {
@@ -99,7 +107,96 @@ public class InfrastructureSpriteController : MonoBehaviour {
         }
     }
 
-    private string findSprite(Tile tile, Player player, NetworkType networkType) {
+    /// Split into a processsprite and a processoverlay
+
+    private (string, float) findSprite(Tile tile, Player player, NetworkType networkType) {
+        //want to rotate z! 90 is rotate agains clock
+        // Get the neighbourng tiles so that we can check the adjacent tiles for infrastructure.
+        Tile[] tiles = tile.getNeighbours();
+        Tile north = tiles[0];
+        Tile east = tiles[1];
+        Tile south = tiles[2];
+        Tile west = tiles[3];
+
+        if (checkTile(north, networkType, player)) {
+            if (checkTile(south, networkType, player)) {
+                if (checkTile(east, networkType, player)) {
+                    if (checkTile(west, networkType, player)) {
+                        // 4X junction
+                        return ("x_junction", 0f);
+                    }
+
+                    // 3X junction
+                    return ("north_east_south", 0f);
+                }
+
+                if (checkTile(west, networkType, player)) {
+                    // 3X junction
+                    return ("north_south_west", 0f);
+                }
+
+                // straight
+                return ("north_south", 0f);
+            }
+
+            if (checkTile(east, networkType, player)) {
+                if (checkTile(west, networkType, player)) {
+                    // 3X junction
+                    return ("north_east_west", 0f);
+                }
+
+                // Rigth
+                return ("north_east", 0f);
+            }
+
+            if (checkTile(west, networkType, player)) {
+                // Rigth
+                return ("north_west", 0f);
+            }
+
+            // Deadend
+            return ("north_dead_end", 0f);
+        }
+
+        if (checkTile(south, networkType, player)) {
+            if (checkTile(east, networkType, player)) {
+                if (checkTile(west, networkType, player)) {
+                    // 3X junction
+                    return ("east_south_west", 0f);
+                }
+
+                // Rigth
+                return ("east_south", 0f);
+            }
+
+            if (checkTile(west, networkType, player)) {
+                // Rigth
+                return ("south_west", 0f);
+            }
+
+            // Deadend
+            return ("south_dead_end", 0f);
+        }
+
+        if (checkTile(east, networkType, player)) {
+            if (checkTile(west, networkType, player)) {
+                // straight
+                return ("east_west", 0f);
+            }
+
+            // Deadend
+            return ("east_dead_end", 0f);
+        }
+
+        if (checkTile(west, networkType, player)) {
+            // Deadend
+            return ("west_dead_end", 0f);
+        }
+
+        return ("", 0f);
+    }
+
+    private string oldfindSprite(Tile tile, Player player, NetworkType networkType) {
 
         // Get the neighbourng tiles so that we can check the adjacent tiles for infrastructure.
         Tile[] tiles = tile.getNeighbours();
@@ -211,12 +308,12 @@ public class InfrastructureSpriteController : MonoBehaviour {
             enableSprites(false);
 
             switch (type) {
-                case NetworkType.Road:
+                case NetworkType.ROAD:
                     activateGameobjects(roadSprites, true);
 
                     return;
 
-                case NetworkType.Highway:
+                case NetworkType.HIGHWAY:
                     activateGameobjects(roadSprites, true);
 
                     return;

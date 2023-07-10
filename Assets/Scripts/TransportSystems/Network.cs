@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public enum NetworkType { Road, Highway, LST, HST }
+public enum NetworkType { ROAD, HIGHWAY, LST, HST }
 public class Network {
     public Network(NetworkType networkType, Player owner) {
         this.owner = owner;
@@ -12,11 +12,11 @@ public class Network {
         vehicles = new Dictionary<CityPair, Vehicle>();
 
         switch (networkType) {
-            case NetworkType.Road:
+            case NetworkType.ROAD:
                 vehicleType = VehicleType.LSC;
                 break;
 
-            case NetworkType.Highway:
+            case NetworkType.HIGHWAY:
                 vehicleType = VehicleType.HSC;
                 break;
 

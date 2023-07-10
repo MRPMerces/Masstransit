@@ -30,10 +30,10 @@ public class CityPair {
     public void assignNewPath(Tile[] newPath, bool apply = false) {
         if (apply) {
             path = newPath;
-            return;
         }
-
-        this.newPath = newPath;
+        else {
+            this.newPath = newPath;
+        }
     }
 
     public void assignNewPath() {

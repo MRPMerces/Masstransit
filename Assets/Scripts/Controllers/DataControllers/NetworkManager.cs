@@ -2,8 +2,8 @@
 using UnityEngine;
 using System.Linq;
 
-public class NetworkController {
-    public NetworkController(NetworkType type, int stationCost, int tileCost) {
+public class NetworkManager {
+    public NetworkManager(NetworkType type, int stationCost, int tileCost) {
         this.type = type;
 
         this.stationCost = stationCost;
@@ -52,7 +52,7 @@ public class NetworkController {
             }
 
             else {
-                if (type != NetworkType.Road && tile.hasPlayerInfrastructure(NetworkType.Road, owner)) {
+                if (type != NetworkType.ROAD && tile.hasPlayerInfrastructure(NetworkType.ROAD, owner)) {
                     cost = tileCost * 0.75f;
                 }
 
